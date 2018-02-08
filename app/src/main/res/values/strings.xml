@@ -13,5 +13,6 @@
     <string name="savepic">Savepic</string>
     <string name="departure">Departure</string>
     <string name="transfer">Return</string>
+    <string name="save">save</string>
 
 </resources>

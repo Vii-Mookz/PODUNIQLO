@@ -33,6 +33,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -146,49 +148,56 @@ public class MainFragment extends Fragment {
 
                 // 2. assign get data
 
-//                Request request = new Request.Builder().url(Constant.urlGetUser +usernameString +"/"+passwordString).build();
-                Request request = new Request.Builder().url(Constant.urlGetUser ).build();
+                Request request = new Request.Builder().url(Constant.urlGetUser +usernameString +"/"+passwordString).build();
+//                Request request = new Request.Builder().url(Constant.urlGetUser ).build();
                 // 3. transport request to server
                 Response response = client.newCall(request).execute();
 
                 String result = response.body().string();
+                String refomat1 = reformat(result);
 
-                Log.d("TAG:", result);
+                Log.d("TAG:", "Result"+ refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
-                Test test = gson.fromJson(result, Test.class);
+                Test test = gson.fromJson(refomat1, Test.class);
 
-                Log.d("TAG:", String.valueOf(test.getData().size()));
-                Log.d("TAG:", test.getData().get(0).getDriverName());
+                Log.d("TAG:", "Getdata"+ String.valueOf(test.getData().size()));
+                Log.d("TAG:","Drivername" + test.getData().get(0).getDriverName());
 
-
-                return result;
+                return refomat1;
 
             } catch (Exception e) {
-                Log.d("codemobiles", e.getMessage().toString());
-                Log.d("UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
+                Log.d("TAG:","Error1: "+ e.getMessage().toString());
+//                Log.d("UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
 
-
+//
 //                OkHttpClient okHttpClient = new OkHttpClient();
 //
 //                Request.Builder builder = new Request.Builder();
-//                Request request = builder.url(Constant.urlGetUser).build();
+//            Request request = builder.url(Constant.urlGetUser +usernameString +"/"+passwordString).build();
+////                Request request = builder.url(Constant.urlGetUser).build();
 //
 //
 //                try {
 //                    Response response = okHttpClient.newCall(request).execute();
+//                    String result = response.body().string();
+//
+//                    result = result.substring(1, result.length()-1);
+//                    Log.d("TAG:", "Result"+ result);
 //                    if (response.isSuccessful()) {
-//                        return response.body().string();
+//
+//                        Log.d("TAG:","Success");
+//                        return result;
 //                    } else {
 //                        return "Not Success - code : " + response.code();
 //                    }
 //                } catch (IOException e) {
 //                    e.printStackTrace();
-//                    Log.d("codemobiles", e.getMessage().toString());
+//                    Log.d("TAG:","Error:"+ e.getMessage().toString());
 //                    return "Error - " + e.getMessage();
 //
 //                }
@@ -197,15 +206,18 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+
             super.onPostExecute(s);
+
             if (!(s == null)) {
-                Log.d(TAG,"result111" + s);
+
+                Log.d("TAG:","result111" + s.substring(1, s.length()-1));
 
 
 
                 try {
-                    Log.d(TAG, "onPostExecute: " + s);
-
+                    Log.d("TAG:", "onPostExecute: " + s);
+                    reformat(s);
 ////                    JSONArray jsonArray = new JSONArray(s);
 //                    JSONObject jsonObject = new JSONObject(s);
 ////                    JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -224,14 +236,16 @@ public class MainFragment extends Fragment {
                     driverNameString= new String[dataJsonArray.length()];
                     driverSurname = new String[dataJsonArray.length()];
                     transportIDString = new String[dataJsonArray.length()];
-                    Log.d(TAG, "Result:" + dataJsonArray.length());
+
+                    Log.d("TAG:", "Result:" + dataJsonArray.length());
+
                     for (int i = 0; i<dataJsonArray.length();i++) {
                         JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
                         truckRegString[i] = jsonObject1.getString("TruckReg");
                         driverNameString[i] = jsonObject1.getString("DriverName");
-                        driverSurname[i] = jsonObject1.getString("DriverSurname");
+                        driverSurname[i] = jsonObject1.getString("Driversirname");
                         transportIDString[i] = jsonObject1.getString("TransportID");
-                        Log.d(TAG,"result111" + jsonObject1);
+                        Log.d("TAG:","result111" + jsonObject1);
                     }
 
 
@@ -254,7 +268,9 @@ public class MainFragment extends Fragment {
 //                        Log.d(TAG,"result111" + truckRegString[i]);
 //                    }
 
-                    String[] loginStrings = new String[]{String.valueOf(driverNameString), String.valueOf(driverSurname), String.valueOf(truckRegString), usernameString};
+                    String[] loginStrings = new String[]{driverNameString[0], driverSurname[0], truckRegString[0], usernameString};
+
+                    String loginstringsArrays = Arrays.toString(loginStrings);
 
                     FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -271,16 +287,25 @@ public class MainFragment extends Fragment {
 
 
 
-                    Log.d(TAG,"result" + loginStrings);
+                    Log.d("TAG:","driverName" + loginstringsArrays);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("UNIQLO-TAG", String.valueOf(e) + " Line: " + e.getStackTrace()[0].getLineNumber());
+                    Log.d("UNIQLO-TAG1", String.valueOf(e) + " Line: " + e.getStackTrace()[0].getLineNumber());
                 }
 
             } else {
                 Toast.makeText(context, "Network Crash, Try Again Later", Toast.LENGTH_SHORT).show();
             }
         }
+        private String reformat(String s) {
+            String result = s;
+            result = result.replaceFirst("\"","");
+            if (result.endsWith("\"")){
+                result = result.substring(0,result.length()-1);
+            }
+            result = result.replace("\\","");
 
+            return result;
+        }
     }
 }

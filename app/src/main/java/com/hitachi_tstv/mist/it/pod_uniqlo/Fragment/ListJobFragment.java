@@ -14,7 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Adapter.JobAdapter;
+import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.GetJobList;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
 
@@ -22,16 +24,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -117,18 +115,35 @@ public class ListJobFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                OkHttpClient okHttpClient = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("isAdd", "true")
-                        .add("truck_id", truckIDString)
-                        .add("dateDel", deliveryDateString)
-                        .build();
-                Request request = builder.url(Constant.urlGetJobList).post(requestBody).build();
-                Response response = okHttpClient.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                // 1. connect server with okHttp
+                OkHttpClient client = new OkHttpClient();
+
+                // 2. assign get data
+
+                Request request = new Request.Builder().url(Constant.urlGetJobList +truckIDString +"/"+deliveryDateString).build();
+//                Request request = new Request.Builder().url(Constant.urlGetUser ).build();
+                // 3. transport request to server
+                Response response = client.newCall(request).execute();
+
+                String result = response.body().string();
+                String refomat1 = reformat(result);
+
+                Log.d("TAG:", "ResultGetJobList"+ refomat1);
+
+                // parse json string with gson
+                Gson gson = new Gson();
+
+                GetJobList getJobList = gson.fromJson(refomat1, GetJobList.class);
+
+                Log.d("TAG:", "Getdata"+ String.valueOf(getJobList.getData().size()));
+                Log.d("TAG:","StoreCode" + getJobList.getData().get(0).getStoreCode());
+
+                return refomat1;
+
+            } catch (Exception e) {
+                Log.d("TAG:","Error1: "+ e.getMessage().toString());
+//                Log.d("UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
         }
@@ -183,7 +198,16 @@ public class ListJobFragment extends Fragment {
 //            super.onDestroyView();
 //            unbinder.unbind();
 //        }
+private String reformat(String s) {
+    String result = s;
+    result = result.replaceFirst("\"","");
+    if (result.endsWith("\"")){
+        result = result.substring(0,result.length()-1);
+    }
+    result = result.replace("\\","");
 
+    return result;
+}
         @OnClick(R.id.dateBtnTrip)
         public void onViewClicked() {
 

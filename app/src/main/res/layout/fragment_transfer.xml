@@ -283,7 +283,7 @@
 
 
         <Button
-            android:id="@+id/btn_savepic"
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
             android:layout_margin="@dimen/mini_margin"
@@ -292,7 +292,7 @@
             android:background="@drawable/blue_button"
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
-            android:text="@string/savepic"
+            android:text="@string/save"
             android:textSize="@dimen/txt_h3"
             android:textStyle="bold" />
     </LinearLayout>
