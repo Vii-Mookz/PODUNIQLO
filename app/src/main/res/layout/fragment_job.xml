@@ -1,0 +1,302 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+android:layout_marginBottom="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.hitachi_tstv.mist.it.pod_uniqlo.Fragment.JobFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:id="@+id/linPDATop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:textColor="@color/Black"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:visibility="invisible" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="0"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtDo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="6"
+                    android:text="DO No. :"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"/>
+
+
+                <TextView
+                    android:id="@+id/txtDodt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="6"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txtsource"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="6"
+                    android:inputType="number"
+                    android:text="Source Code :"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"/>
+
+                <TextView
+                    android:id="@+id/txtsourcedtl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="6"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtlo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="6"
+                    android:inputType="number"
+                    android:text="Location :"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"/>
+
+                <TextView
+                    android:id="@+id/txtlodtl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="6"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black"/>
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_4"
+                    android:layout_width="@dimen/picture_width_l"
+                    android:layout_height="@dimen/picture_width_l"
+                    android:layout_margin="@dimen/mini_margin"
+                    android:layout_weight="0.5"
+                    app:srcCompat="@drawable/warehouse2" />
+
+                <ImageView
+                    android:id="@+id/img_5"
+                    android:layout_width="@dimen/picture_width_l"
+                    android:layout_height="@dimen/picture_width_l"
+                    android:layout_margin="@dimen/mini_margin"
+                    android:layout_weight="0.5"
+                    app:srcCompat="@drawable/warehouse2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_6"
+                    android:layout_width="@dimen/picture_width_l"
+                    android:layout_height="@dimen/picture_width_l"
+                    android:layout_margin="@dimen/mini_margin"
+                    android:layout_weight="0.5"
+                    app:srcCompat="@drawable/icon_document" />
+
+                <ImageView
+                    android:id="@+id/img_7"
+                    android:layout_width="@dimen/picture_width_l"
+                    android:layout_height="@dimen/picture_width_l"
+                    android:layout_margin="@dimen/mini_margin"
+                    android:layout_weight="0.5"
+                    app:srcCompat="@drawable/icon_document" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linPDABottom1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linPDABottom"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btn_savepic"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/mini_margin"
+            android:layout_marginBottom="@dimen/mini_margin"
+            android:layout_weight="1"
+            android:background="@drawable/blue_button"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="@string/savepic"
+            android:textSize="@dimen/txt_h3"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_transfer"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/mini_margin"
+            android:layout_marginBottom="@dimen/mini_margin"
+            android:layout_weight="1"
+            android:background="@drawable/violet_button"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="@string/transfer"
+            android:textSize="@dimen/txt_h3"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linPDABottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_arrival"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/mini_margin"
+            android:layout_marginBottom="@dimen/mini_margin"
+            android:layout_weight="1"
+            android:background="@drawable/green_button"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="@string/arrival"
+            android:textSize="@dimen/txt_h3"
+            android:textStyle="bold" />
+
+
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/mini_margin"
+            android:layout_marginBottom="@dimen/mini_margin"
+            android:layout_weight="1"
+            android:background="@drawable/salmon_button"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="@string/departure"
+            android:textSize="@dimen/txt_h3"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,286 @@
+package com.hitachi_tstv.mist.it.pod_uniqlo.Fragment;
+
+
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.Test;
+import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
+import com.hitachi_tstv.mist.it.pod_uniqlo.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MainFragment extends Fragment {
+
+
+    @BindView(R.id.usernameEditText)
+    EditText usernameEditText;
+    @BindView(R.id.passwordEditText)
+    EditText passwordEditText;
+    @BindView(R.id.login_btn)
+    Button loginBtn;
+    Unbinder unbinder;
+
+
+    private String usernameString, passwordString;
+    private String[] loginStrings,    truckRegString,driverNameString,driverSurname,transportIDString;
+    String TAG = MainFragment.class.getSimpleName();
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //granted
+                } else {
+                    //not granted
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    //What is permission be request
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET,Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.BLUETOOTH,Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_CONTACTS}, 101);
+
+    }
+
+    //Check the permission is already have
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.GET_ACCOUNTS);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        if (!checkIfAlreadyhavePermission()) {
+            requestForSpecificPermission();
+        }
+
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.login_btn)
+    public void onViewClicked() {
+        usernameString = usernameEditText.getText().toString();
+        passwordString = passwordEditText.getText().toString();
+
+        SyncCheckLogin syncCheckLogin = new SyncCheckLogin(getActivity(), usernameString, passwordString);
+        syncCheckLogin.execute();
+
+    }
+    private class SyncCheckLogin extends AsyncTask<Void, Void, String>  {
+        private Context context;
+        private String usernameString, passwordString;
+  
+        public SyncCheckLogin(Context context, String usernameString, String passwordString) {
+            this.context = context;
+            this.usernameString = usernameString;
+            this.passwordString = passwordString;
+        }
+
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+
+            try {
+
+                // 1. connect server with okHttp
+                OkHttpClient client = new OkHttpClient();
+
+                // 2. assign get data
+
+//                Request request = new Request.Builder().url(Constant.urlGetUser +usernameString +"/"+passwordString).build();
+                Request request = new Request.Builder().url(Constant.urlGetUser ).build();
+                // 3. transport request to server
+                Response response = client.newCall(request).execute();
+
+                String result = response.body().string();
+
+                Log.d("TAG:", result);
+
+                // parse json string with gson
+                Gson gson = new Gson();
+
+                Test test = gson.fromJson(result, Test.class);
+
+                Log.d("TAG:", String.valueOf(test.getData().size()));
+                Log.d("TAG:", test.getData().get(0).getDriverName());
+
+
+                return result;
+
+            } catch (Exception e) {
+                Log.d("codemobiles", e.getMessage().toString());
+                Log.d("UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
+                return null;
+            }
+
+
+//                OkHttpClient okHttpClient = new OkHttpClient();
+//
+//                Request.Builder builder = new Request.Builder();
+//                Request request = builder.url(Constant.urlGetUser).build();
+//
+//
+//                try {
+//                    Response response = okHttpClient.newCall(request).execute();
+//                    if (response.isSuccessful()) {
+//                        return response.body().string();
+//                    } else {
+//                        return "Not Success - code : " + response.code();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Log.d("codemobiles", e.getMessage().toString());
+//                    return "Error - " + e.getMessage();
+//
+//                }
+//
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if (!(s == null)) {
+                Log.d(TAG,"result111" + s);
+
+
+
+                try {
+                    Log.d(TAG, "onPostExecute: " + s);
+
+////                    JSONArray jsonArray = new JSONArray(s);
+//                    JSONObject jsonObject = new JSONObject(s);
+////                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+////                    String truckIdString = jsonObject.getString("TruckID");
+//                    String truckRegString = jsonObject.getString("TruckReg");
+////                    String truckTypeIdString = jsonObject.getString("TruckType");
+//                    String driverNameString = jsonObject.getString("DriverName");
+//                    String driverSurname = jsonObject.getString("DriverSurname");
+
+
+                    JSONObject jsonObject = new JSONObject(s);
+
+
+                    JSONArray dataJsonArray = jsonObject.getJSONArray("data");
+                    truckRegString = new String[dataJsonArray.length()];
+                    driverNameString= new String[dataJsonArray.length()];
+                    driverSurname = new String[dataJsonArray.length()];
+                    transportIDString = new String[dataJsonArray.length()];
+                    Log.d(TAG, "Result:" + dataJsonArray.length());
+                    for (int i = 0; i<dataJsonArray.length();i++) {
+                        JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
+                        truckRegString[i] = jsonObject1.getString("TruckReg");
+                        driverNameString[i] = jsonObject1.getString("DriverName");
+                        driverSurname[i] = jsonObject1.getString("DriverSurname");
+                        transportIDString[i] = jsonObject1.getString("TransportID");
+                        Log.d(TAG,"result111" + jsonObject1);
+                    }
+
+
+//                    JSONArray dataJsonArray = new JSONArray(s);
+//
+//                    truckRegString = new String[dataJsonArray.length()];
+//                    driverNameString= new String[dataJsonArray.length()];
+//                    driverSurname = new String[dataJsonArray.length()];
+//
+//                    //JSONObject jsonObject1 = new JSONObject(s);
+//                    for (int i = 0; i<dataJsonArray.length();i++) {
+//
+//
+//                      JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
+//                        JSONObject jsonObject = jsonObject1.getJSONObject("");
+//                        truckRegString[i] = jsonObject.getString("TruckReg");
+//                        driverNameString[i] = jsonObject.getString("DriverName");
+//                        driverSurname[i] = jsonObject.getString("DriverSurname");
+//                        transportIDString[i] = jsonObject.getString("TransportID");
+//                        Log.d(TAG,"result111" + truckRegString[i]);
+//                    }
+
+                    String[] loginStrings = new String[]{String.valueOf(driverNameString), String.valueOf(driverSurname), String.valueOf(truckRegString), usernameString};
+
+                    FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    //Send Arguments
+                    ListJobFragment listJobFragment = new ListJobFragment();
+                    Bundle args = new Bundle();
+                    args.putStringArray("Login", loginStrings);
+                    args.putString("Date","");
+                    listJobFragment.setArguments(args);
+
+                    fragmentTransaction.replace(R.id.contentFragment, listJobFragment);
+                    fragmentTransaction.commit();
+
+
+
+                    Log.d(TAG,"result" + loginStrings);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("UNIQLO-TAG", String.valueOf(e) + " Line: " + e.getStackTrace()[0].getLineNumber());
+                }
+
+            } else {
+                Toast.makeText(context, "Network Crash, Try Again Later", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+}

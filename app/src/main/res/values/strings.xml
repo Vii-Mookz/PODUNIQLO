@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">POD-UNIQLO</string>
+    <string name="Date">Date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="job">Job</string>
+    <string name="truck_license">License Plate :</string>
+    <string name="driver_name">Driver Name :</string>
+    <string name="box">Cartons</string>
+    <string name="total">Total</string>
+    <string name="arrival">Arrival</string>
+    <string name="savepic">Savepic</string>
+    <string name="departure">Departure</string>
+    <string name="transfer">Return</string>
+
+</resources>
