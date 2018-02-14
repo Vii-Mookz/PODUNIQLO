@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
 
@@ -30,9 +35,9 @@ import butterknife.Unbinder;
  */
 public class JobFragment extends Fragment {
 
-
-    @BindView(R.id.txt_name)
-    TextView txtName;
+//
+//    @BindView(R.id.txt_name)
+//    TextView txtName;
     @BindView(R.id.txtDo)
     TextView txtDo;
     @BindView(R.id.txtDodt)
@@ -70,8 +75,10 @@ public class JobFragment extends Fragment {
     Unbinder unbinder;
     Boolean  imgPack1ABoolean, imgPack2ABoolean, imgDoc1ABoolean, imgDoc2ABoolean;
     private String  pathPack1String, pathPack2String, pathDoc1String, pathDoc2String;
-    String[] indexFileNameStrings, fileNameStrings, filePathStrings;
+    String storeCodeString,locationString, doNoString,storeTypeString;
+    String[] indexFileNameStrings, fileNameStrings, filePathStrings,loginStrings;
     Uri pack1Uri, pack2Uri, doc1Uri, doc2Uri;
+    Boolean doubleBackPressABoolean = false;
     public JobFragment() {
         // Required empty public constructor
     }
@@ -81,11 +88,59 @@ public class JobFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        loginStrings = getArguments().getStringArray("Login");
+        doNoString = getArguments().getString("DO");
+        storeCodeString = getArguments().getString("StoreCode");
+        locationString = getArguments().getString("Location");
+        storeTypeString = getArguments().getString("StoreType");
         View view = inflater.inflate(R.layout.fragment_job, container, false);
         unbinder = ButterKnife.bind(this, view);
         setData() ;
+        setPic();
+
+        txtDodt.setText(doNoString);
+        txtlodtl.setText(locationString);
+        txtsourcedtl.setText(storeCodeString);
+        Log.d("TAG:", "StoreType:" + storeTypeString);
         return view;
+
     }
+
+    public void onBackPressed() {
+        if (doubleBackPressABoolean) {
+            FragmentManager fragmentManager =  getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            ListJobFragment listJobFragment = new ListJobFragment();
+            Bundle bundle = new Bundle();
+
+            bundle.putStringArray("Login", loginStrings);
+            bundle.putString("DO", doNoString);
+            bundle.putString("StoreCode", storeCodeString);
+            bundle.putString("Location",locationString);
+            bundle.putString("StoreType",storeTypeString);
+
+            listJobFragment.setArguments(bundle);
+
+            fragmentTransaction.replace(R.id.contentFragment, listJobFragment);
+            fragmentTransaction.commit();
+
+        }
+
+        doubleBackPressABoolean = true;
+        Toast.makeText(getActivity(), getResources().getText(R.string.check_back), Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackPressABoolean = false;
+            }
+        }, 2000);
+
+    }
+
+
     private void setData() {
 
 
@@ -114,53 +169,80 @@ public class JobFragment extends Fragment {
         unbinder.unbind();
     }
 
+
+    private void setPic() {
+        if (!storeTypeString.equals("Roadside")) {
+        img4.setVisibility(View.INVISIBLE);
+        img5.setVisibility(View.INVISIBLE);
+        img6.setVisibility(View.INVISIBLE);
+        img7.setVisibility(View.INVISIBLE);
+        }
+    }
     @OnClick({R.id.btn_savepic, R.id.btn_transfer, R.id.btn_arrival, R.id.btn_confirm,R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_savepic:
                 break;
             case R.id.btn_transfer:
+                FragmentManager fragmentManager =  getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                TransferFragment transferFragment = new TransferFragment();
+                Bundle bundle = new Bundle();
+
+                bundle.putStringArray("Login", loginStrings);
+                bundle.putString("DO", doNoString);
+                bundle.putString("StoreCode", storeCodeString);
+                bundle.putString("Location",locationString);
+                bundle.putString("StoreType",storeTypeString);
+
+                transferFragment.setArguments(bundle);
+
+                fragmentTransaction.replace(R.id.contentFragment, transferFragment);
+                fragmentTransaction.commit();
                 break;
             case R.id.btn_arrival:
                 break;
             case R.id.btn_confirm:
                 break;
-            case R.id.img_4:
-                if (!imgPack1ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
-                    Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    pack1Uri = Uri.fromFile(originalFile1);
-                    cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, pack1Uri);
-                    startActivityForResult(cameraIntent1, 1);
-                }
-                break;
-            case R.id.img_5:
-                if (!imgPack2ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
-                    Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    pack2Uri = Uri.fromFile(originalFile1);
-                    cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, pack2Uri);
-                    startActivityForResult(cameraIntent1, 1);
-                }
-                break;
-            case R.id.img_6:
-                if (!imgDoc1ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
-                    Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    doc1Uri = Uri.fromFile(originalFile1);
-                    cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, doc1Uri);
-                    startActivityForResult(cameraIntent1, 1);
-                }
-                break;
-            case R.id.img_7:
-                if (!imgDoc2ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
-                    Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    doc2Uri = Uri.fromFile(originalFile1);
-                    cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, doc2Uri);
-                    startActivityForResult(cameraIntent1, 1);
-                }
-                break;
+
+                    case R.id.img_4:
+                        if (!imgPack1ABoolean) {
+                            File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                            Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            pack1Uri = Uri.fromFile(originalFile1);
+                            cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, pack1Uri);
+                            startActivityForResult(cameraIntent1, 1);
+                        }
+                        break;
+                    case R.id.img_5:
+                        if (!imgPack2ABoolean) {
+                            File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                            Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            pack2Uri = Uri.fromFile(originalFile1);
+                            cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, pack2Uri);
+                            startActivityForResult(cameraIntent1, 1);
+                        }
+                        break;
+                    case R.id.img_6:
+                        if (!imgDoc1ABoolean) {
+                            File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                            Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            doc1Uri = Uri.fromFile(originalFile1);
+                            cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, doc1Uri);
+                            startActivityForResult(cameraIntent1, 1);
+                        }
+                        break;
+                    case R.id.img_7:
+                        if (!imgDoc2ABoolean) {
+                            File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                            Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            doc2Uri = Uri.fromFile(originalFile1);
+                            cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, doc2Uri);
+                            startActivityForResult(cameraIntent1, 1);
+                        }
+                        break;
+
         }
     }
 }

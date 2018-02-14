@@ -9,6 +9,10 @@ android:layout_marginBottom="10dp"
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linPDABottom1">
     <LinearLayout
         android:id="@+id/linPDATop"
         android:layout_width="match_parent"
@@ -29,41 +33,25 @@ android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txt_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:textColor="@color/Black"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        android:visibility="invisible" />
-
-
-                </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="340dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="40dp"
             android:layout_weight="0"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -71,12 +59,12 @@ android:layout_marginBottom="10dp"
                     android:id="@+id/txtDo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="6"
+                    android:layout_weight="0.5"
+                    android:ems="3"
                     android:text="DO No. :"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Black"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -86,9 +74,9 @@ android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:ems="6"
                     android:text=""
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Black"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
 
@@ -96,22 +84,23 @@ android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/txtsource"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="6"
+                    android:layout_weight="0.5"
+                    android:ems="5"
                     android:inputType="number"
-                    android:text="Source Code :"
+                    android:text="@string/source_code"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Black"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtsourcedtl"
@@ -119,9 +108,9 @@ android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="6"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Black"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -129,8 +118,8 @@ android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -138,13 +127,13 @@ android:layout_marginBottom="10dp"
                     android:id="@+id/txtlo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="6"
+                    android:layout_weight="0.5"
+                    android:ems="4"
                     android:inputType="number"
                     android:text="Location :"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Black"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtlodtl"
@@ -152,12 +141,10 @@ android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="6"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Black"/>
+                    android:textStyle="bold" />
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -171,6 +158,7 @@ android:layout_marginBottom="10dp"
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -195,7 +183,7 @@ android:layout_marginBottom="10dp"
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -221,7 +209,7 @@ android:layout_marginBottom="10dp"
 
 
     </LinearLayout>
-
+    </ScrollView>
     <LinearLayout
         android:id="@+id/linPDABottom1"
         android:layout_width="match_parent"
@@ -242,7 +230,8 @@ android:layout_marginBottom="10dp"
             android:paddingStart="20dp"
             android:text="@string/savepic"
             android:textSize="@dimen/txt_h3"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_transfer"
@@ -258,6 +247,7 @@ android:layout_marginBottom="10dp"
             android:textSize="@dimen/txt_h3"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linPDABottom"
         android:layout_width="match_parent"

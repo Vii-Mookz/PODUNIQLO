@@ -14,5 +14,13 @@
     <string name="departure">Departure</string>
     <string name="transfer">Return</string>
     <string name="save">save</string>
+    <string name="check_back">Please click BACK again to back page</string>
+    <string name="refresh">refresh</string>
+    <string name="logout">logout</string>
+    <string name="alert">Alert</string>
+    <string name="alert_logout">Do you want to logout?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="source_code">Store Code :</string>
 
 </resources>

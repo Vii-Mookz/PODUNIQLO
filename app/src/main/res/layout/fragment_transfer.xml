@@ -9,6 +9,10 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linPDABottom">
     <LinearLayout
         android:id="@+id/linPDATop"
         android:layout_width="match_parent"
@@ -29,30 +33,13 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txt_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:textColor="@color/Black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="340dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="40dp"
@@ -62,8 +49,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -71,8 +59,8 @@
                     android:id="@+id/txtDo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="6"
+                    android:layout_weight="0.5"
+                    android:ems="3"
                     android:text="DO No. :"
                     android:textColor="@color/Black"
                     android:textSize="18sp"
@@ -86,8 +74,8 @@
                     android:layout_weight="1"
                     android:ems="6"
                     android:text=""
-                    android:textSize="18sp"
                     android:textColor="@color/Black"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -96,31 +84,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/txtsource"
-                    android:textColor="@color/Black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="6"
-                    android:inputType="number"
-                    android:text="Source Code :"
+                    android:layout_weight="0.5"
+                    android:ems="5"
+                    android:text="@string/source_code"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtsourcedtl"
-                    android:textColor="@color/Black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="6"
+                    android:textColor="@color/Black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -130,8 +117,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -139,12 +126,12 @@
                     android:id="@+id/txtlo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="6"
+                    android:layout_weight="0.5"
+                    android:ems="4"
                     android:inputType="number"
                     android:text="Location :"
-                    android:textSize="18sp"
                     android:textColor="@color/Black"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -153,8 +140,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="6"
-                    android:textSize="18sp"
                     android:textColor="@color/Black"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -165,6 +152,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/mini_margin"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="vertical"
             android:weightSum="1">
@@ -179,7 +168,7 @@
 
                 <TextView
                     android:id="@+id/txtTotal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/total"
@@ -192,14 +181,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:ems="8"
+                    android:ems="6"
                     android:inputType="number"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/box"
@@ -222,6 +211,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_weight="0"
                 android:orientation="horizontal">
 
@@ -272,7 +262,7 @@
 
 
     </LinearLayout>
-
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/linPDABottom"

@@ -28,16 +28,17 @@ import butterknife.ButterKnife;
 public class JobAdapter extends BaseAdapter {
     private static final String TAG = JobAdapter.class.getSimpleName();
     private Context context;
-    private String[]  storeCodeStrings,locationStrings,loginStrings,numberStrings, doNoStrings;
+    private String[]  storeCodeStrings,locationStrings,loginStrings,numberStrings, doNoStrings,storeTypeStrings;
     private ViewHolder viewHolder;
 
-    public JobAdapter(Context context,String[] storeCodeStrings,String[] locationStrings ,String[] loginStrings , String[] numberStrings , String[] doNoStrings) {
+    public JobAdapter(Context context,String[] storeCodeStrings,String[] locationStrings ,String[] loginStrings , String[] numberStrings , String[] doNoStrings,String[] storeTypeStrings) {
         this.context = context;
         this.storeCodeStrings = storeCodeStrings;
         this.locationStrings = locationStrings;
         this.loginStrings = loginStrings;
         this.numberStrings = numberStrings;
         this.doNoStrings = doNoStrings;
+        this.storeTypeStrings = storeTypeStrings;
     }
 
     @Override
@@ -82,6 +83,7 @@ public class JobAdapter extends BaseAdapter {
                 bundle.putString("DO", doNoStrings[i]);
                 bundle.putString("StoreCode", storeCodeStrings[i]);
                 bundle.putString("Location",locationStrings[i]);
+                bundle.putString("StoreType",storeTypeStrings[i]);
 
                 jobFragment.setArguments(bundle);
 

@@ -218,14 +218,6 @@ public class MainFragment extends Fragment {
                 try {
                     Log.d("TAG:", "onPostExecute: " + s);
                     reformat(s);
-////                    JSONArray jsonArray = new JSONArray(s);
-//                    JSONObject jsonObject = new JSONObject(s);
-////                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-////                    String truckIdString = jsonObject.getString("TruckID");
-//                    String truckRegString = jsonObject.getString("TruckReg");
-////                    String truckTypeIdString = jsonObject.getString("TruckType");
-//                    String driverNameString = jsonObject.getString("DriverName");
-//                    String driverSurname = jsonObject.getString("DriverSurname");
 
 
                     JSONObject jsonObject = new JSONObject(s);
@@ -248,25 +240,6 @@ public class MainFragment extends Fragment {
                         Log.d("TAG:","result111" + jsonObject1);
                     }
 
-
-//                    JSONArray dataJsonArray = new JSONArray(s);
-//
-//                    truckRegString = new String[dataJsonArray.length()];
-//                    driverNameString= new String[dataJsonArray.length()];
-//                    driverSurname = new String[dataJsonArray.length()];
-//
-//                    //JSONObject jsonObject1 = new JSONObject(s);
-//                    for (int i = 0; i<dataJsonArray.length();i++) {
-//
-//
-//                      JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
-//                        JSONObject jsonObject = jsonObject1.getJSONObject("");
-//                        truckRegString[i] = jsonObject.getString("TruckReg");
-//                        driverNameString[i] = jsonObject.getString("DriverName");
-//                        driverSurname[i] = jsonObject.getString("DriverSurname");
-//                        transportIDString[i] = jsonObject.getString("TransportID");
-//                        Log.d(TAG,"result111" + truckRegString[i]);
-//                    }
 
                     String[] loginStrings = new String[]{driverNameString[0], driverSurname[0], truckRegString[0], usernameString};
 

@@ -5,7 +5,7 @@
     <dimen name="margin">5dp</dimen>
     <dimen name="txt_h1">32sp</dimen>
     <dimen name="txt_h2">28sp</dimen>
-    <dimen name="txt_h3">24sp</dimen>
+    <dimen name="txt_h3">20sp</dimen>
     <dimen name="txt_nm">18sp</dimen>
     <dimen name="picture_width">80dp</dimen>
     <dimen name="picture_height">80dp</dimen>

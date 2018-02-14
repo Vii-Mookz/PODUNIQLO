@@ -52,7 +52,8 @@ public class TransferFragment extends Fragment {
     Unbinder unbinder;
     Boolean  imgPack1RBoolean, imgPack2RBoolean, imgDoc1RBoolean, imgDoc2RBoolean;
     private String  pathPack1String, pathPack2String, pathDoc1String, pathDoc2String;
-    String[] indexFileNameStrings, fileNameStrings, filePathStrings;
+    String[] indexFileNameStrings, fileNameStrings, filePathStrings,loginStrings;
+    String storeCodeString,locationString, doNoString,storeTypeString;
     Uri pack1RUri, pack2RUri, doc1RUri, doc2RUri;
     public TransferFragment() {
         // Required empty public constructor
@@ -63,9 +64,18 @@ public class TransferFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        loginStrings = getArguments().getStringArray("Login");
+        doNoString = getArguments().getString("DO");
+        storeCodeString = getArguments().getString("StoreCode");
+        locationString = getArguments().getString("Location");
+        storeTypeString = getArguments().getString("StoreType");
         View view = inflater.inflate(R.layout.fragment_transfer, container, false);
         unbinder = ButterKnife.bind(this, view);
         setData();
+        txtDodt.setText(doNoString);
+        txtlodtl.setText(locationString);
+        txtsourcedtl.setText(storeCodeString);
         return view;
     }
 
