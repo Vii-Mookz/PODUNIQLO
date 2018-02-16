@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -32,10 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -56,10 +54,9 @@ public class ListJobFragment extends Fragment {
     Unbinder unbinder;
 
     String TAG = ListJobFragment.class.getSimpleName();
-    String[] doNoStrings, storeCodeStrings, locationStrings,runningNoStrings,storeTypeStrings,statusStrings,numberStrings, loginStrings, driverNameStrings;
-    String dateString,truckString,deliveryDateString;
-    @BindView(R.id.dateBtnTrip)
-    Button dateBtnTrip;
+    String[] doNoStrings, storeCodeStrings, locationStrings, runningNoStrings, storeTypeStrings, statusStrings, numberStrings, loginStrings, driverNameStrings;
+    String dateString, truckString, deliveryDateString;
+
     @BindView(R.id.truckIdLblTrip)
     TextView truckIdLblTrip;
     @BindView(R.id.txtLicensePlate)
@@ -70,12 +67,16 @@ public class ListJobFragment extends Fragment {
     TextView txtDriverName;
     @BindView(R.id.middenLinTrip)
     LinearLayout middenLinTrip;
+    @BindView(R.id.headerLinTrip)
+    LinearLayout headerLinTrip;
+    @BindView(R.id.dateBtnTrip)
+    Button dateBtnTrip;
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        inflater.inflate(R.menu.main_menu,menu);
-        super.onCreateOptionsMenu(menu,inflater);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class ListJobFragment extends Fragment {
 
                 dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getContext(),MainFragment.class);
+                        Intent intent = new Intent(getContext(), MainFragment.class);
                         ComponentName componentName = intent.getComponent();
                         Intent backToMainIntent = IntentCompat.makeRestartActivityTask(componentName);
                         startActivity(backToMainIntent);
@@ -117,17 +118,22 @@ public class ListJobFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         loginStrings = getArguments().getStringArray("Login");
-       deliveryDateString =  new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        deliveryDateString = getArguments().getString("Date");
+//        UtilityClass utilityClass = new UtilityClass(getContext());
+//        deliveryDateString = "";
+
+//        deliveryDateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
         View view = inflater.inflate(R.layout.fragment_list_job, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        Log.d("TAG:", "onCreateView: " + (deliveryDateString== null));
         if (driverNameStrings == null) {
 //
-            if (loginStrings[1].equals("null")){
+            if (loginStrings[1].equals("null")) {
                 String name = loginStrings[0];
                 txtDriverName.setText(name);
-            }else{
+            } else {
                 String name = loginStrings[0] + " " + loginStrings[1];
                 txtDriverName.setText(name);
             }
@@ -137,26 +143,57 @@ public class ListJobFragment extends Fragment {
         txtLicensePlate.setText(loginStrings[2]);
 
 
-        Log.d("DATE11", deliveryDateString);
+        if (!(deliveryDateString == null)) {
+            Log.d("TAG:","DATE11"+ deliveryDateString);
 
-        Log.d("TAG:", "Bool 1 ==> " + (deliveryDateString.equals("")) + " Bool 2 ==> " + (deliveryDateString == "") + " Date ==> " + deliveryDateString);
-        if (deliveryDateString.equals("")) {
-            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[0]);
-            synGetJobList.execute();
-        } else {
-            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[0], deliveryDateString);
-            synGetJobList.execute();
         }
-setHasOptionsMenu(true);
+
+//        Log.d("TAG:", "Bool 1 ==> " + (deliveryDateString.equals("")) + " Bool 2 ==> " + (deliveryDateString == "") + " Date ==> " + deliveryDateString);
+//        if (!(deliveryDateString.equals(""))) {
+        if (!(deliveryDateString == "")) {
+            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[2], deliveryDateString);
+            synGetJobList.execute();
+
+        } else {
+            dateBtnTrip.setText("Please Select Date");
+//            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[2]);
+//            synGetJobList.execute();
+        }
+        setHasOptionsMenu(true);
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @OnClick(R.id.dateBtnTrip)
+    public void onViewClicked() {
+
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            //Send Arguments
+            DateDeliveryFragment dateDeliveryFragment = new DateDeliveryFragment();
+            Bundle args = new Bundle();
+            args.putStringArray("Login", loginStrings);
+            dateDeliveryFragment.setArguments(args);
+
+            fragmentTransaction.replace(R.id.contentFragment, dateDeliveryFragment);
+            fragmentTransaction.commit();
+
+
+    }
+
 
 
 
     protected class SynGetJobList extends AsyncTask<Void, Void, String> {
         private Context context;
         private String truckIDString;
-        private String deliveryDateString ;
+        private String deliveryDateString;
 
         public SynGetJobList(ListJobFragment context, String truckIDString, String deliveryDateString) {
 //            this.context = context;
@@ -178,30 +215,30 @@ setHasOptionsMenu(true);
 
                 // 2. assign get data
 
-                Request request = new Request.Builder().url(Constant.urlGetJobList +loginStrings[2] +"/"+"02-02-2018").build();
-//                Request request = new Request.Builder().url(Constant.urlGetJobList +loginStrings[2] +"/"+deliveryDateString).build();
+//                Request request = new Request.Builder().url(Constant.urlGetJobList + truckIDString + "/" + "02-02-2018").build();
+                Request request = new Request.Builder().url(Constant.urlGetJobList +truckIDString +"/"+deliveryDateString).build();
 
                 // 3. transport request to server
                 Response response = client.newCall(request).execute();
 
                 String result = response.body().string();
                 String refomat1 = reformat(result);
-                Log.d("TAG:","Request:" +request);
+                Log.d("TAG:", "Request:" + request);
 
-                Log.d("TAG:", "ResultGetJobList"+ refomat1);
+                Log.d("TAG:", "ResultGetJobList" + refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
                 GetJobList getJobList = gson.fromJson(refomat1, GetJobList.class);
 
-                Log.d("TAG:", "Getdata"+ String.valueOf(getJobList.getData().size()));
-                Log.d("TAG:","StoreCode" + getJobList.getData().get(0).getStoreCode());
+                Log.d("TAG:", "Getdata" + String.valueOf(getJobList.getData().size()));
+                Log.d("TAG:", "StoreCode" + getJobList.getData().get(0).getStoreCode());
 
                 return refomat1;
 
             } catch (Exception e) {
-                Log.d("TAG:","Error1: "+ e.getMessage().toString());
+                Log.d("TAG:", "Error1: " + e.getMessage().toString());
 //                Log.d("TAG:","UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
@@ -213,7 +250,7 @@ setHasOptionsMenu(true);
             Log.d("UNIQLO-Tag", s);
 
             try {
-                            JSONObject jsonObject = new JSONObject(s);
+                JSONObject jsonObject = new JSONObject(s);
 
                 JSONArray dataJsonArray = jsonObject.getJSONArray("data");
                 doNoStrings = new String[dataJsonArray.length()];
@@ -224,7 +261,7 @@ setHasOptionsMenu(true);
                 statusStrings = new String[dataJsonArray.length()];
                 numberStrings = new String[dataJsonArray.length()];
 
-                for (int i = 0; i<dataJsonArray.length();i++) {
+                for (int i = 0; i < dataJsonArray.length(); i++) {
                     JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
                     doNoStrings[i] = jsonObject1.getString("DO");
                     locationStrings[i] = jsonObject1.getString("Location");
@@ -237,9 +274,9 @@ setHasOptionsMenu(true);
 
 //                dateBtnTrip.setText(jsonObject.getString("dateDel"));
                 dateBtnTrip.setText(deliveryDateString);
-                Log.d("TAG:","dateString" + deliveryDateString);
-
-                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings,storeTypeStrings);
+                Log.d("TAG:", "dateString" + deliveryDateString);
+                Log.d("TAG:", "truck" + truckIDString);
+                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings);
                 tripListviewTrip.setAdapter(jobAdapter);
 
 
@@ -251,25 +288,23 @@ setHasOptionsMenu(true);
 
         }
 
-//        @Override
+        //        @Override
 //        public void onDestroyView() {
 //            super.onDestroyView();
 //            unbinder.unbind();
 //        }
-private String reformat(String s) {
-    String result = s;
-    result = result.replaceFirst("\"","");
-    if (result.endsWith("\"")){
-        result = result.substring(0,result.length()-1);
-    }
-    result = result.replace("\\","");
+        private String reformat(String s) {
+            String result = s;
+            result = result.replaceFirst("\"", "");
+            if (result.endsWith("\"")) {
+                result = result.substring(0, result.length() - 1);
+            }
+            result = result.replace("\\", "");
 
-    return result;
-}
-        @OnClick(R.id.dateBtnTrip)
-        public void onViewClicked() {
-
+            return result;
         }
+
+
     }
 
 

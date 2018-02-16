@@ -14,6 +14,8 @@ public interface Constant {
 //    static final String urlGetUser = serverString + projectString + pathString + "ServiceUniqlo/getUser.php";
     String urlGetUser = serverString + projectString + "/Service.svc/getUserLogin/";
     String urlGetJobList = serverString + projectString + "/Service.svc/GetJobList/";
+    String urlSaveTimestamp = serverString + projectString + "/Service.svc/insertTimestamp/";
+    String urlGetDate = serverString + projectString + "/Service.svc/GetJobTotalList/";
 //    String urlGetJobListDate = serverString + projectString + "/app/centerservice/ServiceUniqlo/getListJobDate.php";
 //    String urlGetJob = serverString + projectString + "/app/centerservice/ServiceUniqlo/getJob.php";
 //    String urlGetJobDetail = serverString + projectString + "/app/centerservice/ServiceUniqlo/getJobDetail.php";

@@ -25,7 +25,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.Test;
+import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.Login;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
 
@@ -161,10 +161,10 @@ public class MainFragment extends Fragment {
                 // parse json string with gson
                 Gson gson = new Gson();
 
-                Test test = gson.fromJson(refomat1, Test.class);
+                Login login = gson.fromJson(refomat1, Login.class);
 
-                Log.d("TAG:", "Getdata"+ String.valueOf(test.getData().size()));
-                Log.d("TAG:","Drivername" + test.getData().get(0).getDriverName());
+                Log.d("TAG:", "Getdata"+ String.valueOf(login.getData().size()));
+                Log.d("TAG:","Drivername" + login.getData().get(0).getDriverName());
 
                 return refomat1;
 
@@ -252,6 +252,7 @@ public class MainFragment extends Fragment {
                     ListJobFragment listJobFragment = new ListJobFragment();
                     Bundle args = new Bundle();
                     args.putStringArray("Login", loginStrings);
+                    args.putString("TruckReg" ,truckRegString[0]);
                     args.putString("Date","");
                     listJobFragment.setArguments(args);
 
@@ -267,7 +268,8 @@ public class MainFragment extends Fragment {
                 }
 
             } else {
-                Toast.makeText(context, "Network Crash, Try Again Later", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getResources().getText(R.string.errLogin), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Network Crash, Try Again Later", Toast.LENGTH_SHORT).show();
             }
         }
         private String reformat(String s) {

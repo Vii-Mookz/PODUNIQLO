@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Vipavee on 08/02/2018.
  */
 
-public class Test {
+public class Login {
 
 
     private List<DataBean> data;
