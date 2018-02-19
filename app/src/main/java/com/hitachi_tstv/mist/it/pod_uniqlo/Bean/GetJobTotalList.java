@@ -6,7 +6,7 @@ import java.util.List;
  * Created by Vipavee on 15/02/2018.
  */
 
-public class GetJobTatalList {
+public class GetJobTotalList {
 
     private List<DataBean> data;
 

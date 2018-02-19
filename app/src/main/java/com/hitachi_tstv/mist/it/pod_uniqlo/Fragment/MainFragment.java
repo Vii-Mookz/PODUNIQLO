@@ -2,7 +2,10 @@ package com.hitachi_tstv.mist.it.pod_uniqlo.Fragment;
 
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,6 +19,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +28,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.Login;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
+import com.hitachi_tstv.mist.it.pod_uniqlo.MainActivity;
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
 
 import org.json.JSONArray;
@@ -62,6 +69,7 @@ public class MainFragment extends Fragment {
     private String usernameString, passwordString;
     private String[] loginStrings,    truckRegString,driverNameString,driverSurname,transportIDString;
     String TAG = MainFragment.class.getSimpleName();
+    String name = "MainFragment ";
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -156,20 +164,20 @@ public class MainFragment extends Fragment {
                 String result = response.body().string();
                 String refomat1 = reformat(result);
 
-                Log.d("TAG:", "Result"+ refomat1);
+                Log.d(name +"TAG:", "Result"+ refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
                 Login login = gson.fromJson(refomat1, Login.class);
 
-                Log.d("TAG:", "Getdata"+ String.valueOf(login.getData().size()));
-                Log.d("TAG:","Drivername" + login.getData().get(0).getDriverName());
+                Log.d(name +"TAG:", "Getdata"+ String.valueOf(login.getData().size()));
+                Log.d(name +"TAG:","Drivername" + login.getData().get(0).getDriverName());
 
                 return refomat1;
 
             } catch (Exception e) {
-                Log.d("TAG:","Error1: "+ e.getMessage().toString());
+                Log.d(name +"TAG:","Error1: "+ e.getMessage().toString());
 //                Log.d("UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
@@ -211,12 +219,12 @@ public class MainFragment extends Fragment {
 
             if (!(s == null)) {
 
-                Log.d("TAG:","result111" + s.substring(1, s.length()-1));
+                Log.d(name +"TAG:","result111" + s.substring(1, s.length()-1));
 
 
 
                 try {
-                    Log.d("TAG:", "onPostExecute: " + s);
+                    Log.d(name +"TAG:", "onPostExecute: " + s);
                     reformat(s);
 
 
@@ -229,7 +237,7 @@ public class MainFragment extends Fragment {
                     driverSurname = new String[dataJsonArray.length()];
                     transportIDString = new String[dataJsonArray.length()];
 
-                    Log.d("TAG:", "Result:" + dataJsonArray.length());
+                    Log.d(name +"TAG:", "Result:" + dataJsonArray.length());
 
                     for (int i = 0; i<dataJsonArray.length();i++) {
                         JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
@@ -237,7 +245,7 @@ public class MainFragment extends Fragment {
                         driverNameString[i] = jsonObject1.getString("DriverName");
                         driverSurname[i] = jsonObject1.getString("Driversirname");
                         transportIDString[i] = jsonObject1.getString("TransportID");
-                        Log.d("TAG:","result111" + jsonObject1);
+                        Log.d(name +"TAG:","result111" + jsonObject1);
                     }
 
 
@@ -248,6 +256,7 @@ public class MainFragment extends Fragment {
                     FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+
                     //Send Arguments
                     ListJobFragment listJobFragment = new ListJobFragment();
                     Bundle args = new Bundle();
@@ -256,15 +265,16 @@ public class MainFragment extends Fragment {
                     args.putString("Date","");
                     listJobFragment.setArguments(args);
 
-                    fragmentTransaction.replace(R.id.contentFragment, listJobFragment);
+                    fragmentTransaction.replace(R.id.contentFragment, listJobFragment,"ListJob");
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
 
 
 
-                    Log.d("TAG:","driverName" + loginstringsArrays);
+                    Log.d(name +"TAG:","driverName" + loginstringsArrays);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.d("UNIQLO-TAG1", String.valueOf(e) + " Line: " + e.getStackTrace()[0].getLineNumber());
+                    Log.d(name +"TAG:", String.valueOf(e) + " Line: " + e.getStackTrace()[0].getLineNumber());
                 }
 
             } else {
@@ -283,4 +293,5 @@ public class MainFragment extends Fragment {
             return result;
         }
     }
+
 }

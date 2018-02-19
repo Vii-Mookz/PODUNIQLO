@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Adapter.JobAdapter;
@@ -56,6 +57,7 @@ public class ListJobFragment extends Fragment {
     String TAG = ListJobFragment.class.getSimpleName();
     String[] doNoStrings, storeCodeStrings, locationStrings, runningNoStrings, storeTypeStrings, statusStrings, numberStrings, loginStrings, driverNameStrings;
     String dateString, truckString, deliveryDateString;
+    String name = "ListJobFragment ";
 
     @BindView(R.id.truckIdLblTrip)
     TextView truckIdLblTrip;
@@ -119,7 +121,6 @@ public class ListJobFragment extends Fragment {
         // Inflate the layout for this fragment
         loginStrings = getArguments().getStringArray("Login");
         deliveryDateString = getArguments().getString("Date");
-//        UtilityClass utilityClass = new UtilityClass(getContext());
 //        deliveryDateString = "";
 
 //        deliveryDateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -127,7 +128,7 @@ public class ListJobFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_job, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        Log.d("TAG:", "onCreateView: " + (deliveryDateString== null));
+        Log.d(name +"TAG:" , "onCreateView: " + (deliveryDateString== null));
         if (driverNameStrings == null) {
 //
             if (loginStrings[1].equals("null")) {
@@ -144,7 +145,7 @@ public class ListJobFragment extends Fragment {
 
 
         if (!(deliveryDateString == null)) {
-            Log.d("TAG:","DATE11"+ deliveryDateString);
+            Log.d(name +"TAG:" ,"DATE11"+ deliveryDateString);
 
         }
 
@@ -181,7 +182,8 @@ public class ListJobFragment extends Fragment {
             args.putStringArray("Login", loginStrings);
             dateDeliveryFragment.setArguments(args);
 
-            fragmentTransaction.replace(R.id.contentFragment, dateDeliveryFragment);
+            fragmentTransaction.replace(R.id.contentFragment, dateDeliveryFragment,"DeliveryDate");
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
 
@@ -223,22 +225,22 @@ public class ListJobFragment extends Fragment {
 
                 String result = response.body().string();
                 String refomat1 = reformat(result);
-                Log.d("TAG:", "Request:" + request);
+                Log.d(name +"TAG:" , "Request:" + request);
 
-                Log.d("TAG:", "ResultGetJobList" + refomat1);
+                Log.d(name +"TAG:" , "ResultGetJobList" + refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
                 GetJobList getJobList = gson.fromJson(refomat1, GetJobList.class);
 
-                Log.d("TAG:", "Getdata" + String.valueOf(getJobList.getData().size()));
-                Log.d("TAG:", "StoreCode" + getJobList.getData().get(0).getStoreCode());
+                Log.d(name +"TAG:", "Getdata" + String.valueOf(getJobList.getData().size()));
+                Log.d(name +"TAG:", "StoreCode" + getJobList.getData().get(0).getStoreCode());
 
                 return refomat1;
 
             } catch (Exception e) {
-                Log.d("TAG:", "Error1: " + e.getMessage().toString());
+                Log.d(name +"TAG:", "Error1: " + e.getMessage().toString());
 //                Log.d("TAG:","UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
@@ -247,7 +249,7 @@ public class ListJobFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("UNIQLO-Tag", s);
+            Log.d(name +"TAG:" , s);
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
@@ -274,15 +276,15 @@ public class ListJobFragment extends Fragment {
 
 //                dateBtnTrip.setText(jsonObject.getString("dateDel"));
                 dateBtnTrip.setText(deliveryDateString);
-                Log.d("TAG:", "dateString" + deliveryDateString);
-                Log.d("TAG:", "truck" + truckIDString);
-                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings);
+                Log.d(name +"TAG:" , "dateString" + deliveryDateString);
+                Log.d(name +"TAG:" , "truck" + truckIDString);
+                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings,runningNoStrings,deliveryDateString);
                 tripListviewTrip.setAdapter(jobAdapter);
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
-
+                Log.d(name +"TAG:" , "e doInBack ==>" + e.toString() + "line::" + e.getStackTrace()[0].getLineNumber());
             }
 
 

@@ -48,6 +48,7 @@ public class DateDeliveryFragment extends Fragment {
     String dateString;
     @BindView(R.id.lisDADate)
     ListView lisDADate;
+    String name = "DateDeliveryFragment";
 
 
     public DateDeliveryFragment() {
@@ -122,22 +123,22 @@ public class DateDeliveryFragment extends Fragment {
 
                 String result = response.body().string();
                 String refomat1 = reformat(result);
-                Log.d("TAG:", "Request:" + request);
+                Log.d("TAG:"+ name, "Request:" + request);
 
-                Log.d("TAG:", "ResultGetJobList" + refomat1);
+                Log.d("TAG:"+ name, "ResultGetJobList" + refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
                 GetDate getDate = gson.fromJson(refomat1, GetDate.class);
 
-                Log.d("TAG:", "Getdata" + String.valueOf(getDate.getData().size()));
-                Log.d("TAG:", "StoreCode" + getDate.getData().get(0).getDeliveryDate());
+                Log.d("TAG:"+ name, "Getdata" + String.valueOf(getDate.getData().size()));
+                Log.d("TAG:"+ name, "StoreCode" + getDate.getData().get(0).getDeliveryDate());
 
                 return refomat1;
 
             } catch (Exception e) {
-                Log.d("TAG:", "Error1: " + e.getMessage().toString());
+                Log.d("TAG:"+ name, "Error1: " + e.getMessage().toString());
 //                Log.d("TAG:","UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
@@ -146,7 +147,7 @@ public class DateDeliveryFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("Tag", "S ==> " + s);
+            Log.d("TAG:"+ name, "S ==> " + s);
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
@@ -167,7 +168,7 @@ public class DateDeliveryFragment extends Fragment {
                 lisDADate.setAdapter(dateDeliveryAdaper);
 
             } catch (JSONException e) {
-                Log.d("Tag", "Error Date Activity SyncGetDate on post JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
+                Log.d("TAG:"+ name, "Error Date Activity SyncGetDate on post JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
 
             }
         }
@@ -218,7 +219,7 @@ public class DateDeliveryFragment extends Fragment {
                 dateViewHolder.linearDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("TAG", "onClick: " + Arrays.toString(loginStrings));
+                        Log.d("TAG:"+ name, "onClick: " + Arrays.toString(loginStrings));
                         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -233,7 +234,8 @@ public class DateDeliveryFragment extends Fragment {
 
                         listJobFragment.setArguments(bundle);
 
-                        fragmentTransaction.replace(R.id.contentFragment, listJobFragment);
+                        fragmentTransaction.replace(R.id.contentFragment, listJobFragment,"ListJob");
+                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
 
                     }

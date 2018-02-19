@@ -23,5 +23,6 @@
     <string name="no">NO</string>
     <string name="source_code">Store Code :</string>
     <string name="errLogin">Login Fail!! Please Try Again</string>
-
+    <string name="arrivalDialog">Arrival complete</string>
+    <string name="gps_err">Please click when you arrived</string>
 </resources>

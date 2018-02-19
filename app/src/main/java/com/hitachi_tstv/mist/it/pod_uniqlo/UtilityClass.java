@@ -139,7 +139,7 @@ public class UtilityClass {
 
     }   // setupLocation
 
-    String getTimeString() {
+    public String getTimeString() {
         return timeString;
     }
 
@@ -159,7 +159,7 @@ public class UtilityClass {
         return result;
     }
 
-    String getDistanceMeter(String storeLatString, String storeLngString) {
+    public String getDistanceMeter(String storeLatString, String storeLngString) {
         String strLat = latString;
         String strLng = longString;
 
@@ -212,7 +212,7 @@ public class UtilityClass {
         }
     }
 
-    boolean setLatLong(int rev) {
+     public boolean setLatLong(int rev) {
         boolean b = true;
         boolean result = false;
 
@@ -255,11 +255,11 @@ public class UtilityClass {
 
     }
 
-    String getLatString() {
+    public String getLatString() {
         return latString;
     }
 
-    String getLongString() {
+    public String getLongString() {
         return longString;
     }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,8 +54,9 @@ public class TransferFragment extends Fragment {
     Boolean  imgPack1RBoolean, imgPack2RBoolean, imgDoc1RBoolean, imgDoc2RBoolean;
     private String  pathPack1String, pathPack2String, pathDoc1String, pathDoc2String;
     String[] indexFileNameStrings, fileNameStrings, filePathStrings,loginStrings;
-    String storeCodeString,locationString, doNoString,storeTypeString;
+    String storeCodeString,locationString, doNoString,storeTypeString,runningNoString,deliveryDateString;
     Uri pack1RUri, pack2RUri, doc1RUri, doc2RUri;
+    String name = "TransferFragment " ;
     public TransferFragment() {
         // Required empty public constructor
     }
@@ -70,15 +72,28 @@ public class TransferFragment extends Fragment {
         storeCodeString = getArguments().getString("StoreCode");
         locationString = getArguments().getString("Location");
         storeTypeString = getArguments().getString("StoreType");
+        runningNoString = getArguments().getString("Running_No");
+        deliveryDateString = getArguments().getString("Date");
+
+
         View view = inflater.inflate(R.layout.fragment_transfer, container, false);
         unbinder = ButterKnife.bind(this, view);
         setData();
+        setPic();
         txtDodt.setText(doNoString);
         txtlodtl.setText(locationString);
         txtsourcedtl.setText(storeCodeString);
+        Log.d(name +"TAG:", "Date Trasfer: " + deliveryDateString);
         return view;
     }
-
+    private void setPic() {
+        if (!storeTypeString.equals("Roadside")) {
+            img4.setVisibility(View.INVISIBLE);
+            img5.setVisibility(View.INVISIBLE);
+            img6.setVisibility(View.INVISIBLE);
+            img7.setVisibility(View.INVISIBLE);
+        }
+    }
     private void setData() {
         indexFileNameStrings = new String[]{"PackageReturn1.png", "PackageReturn2.png", "DocumentReturn1.png", "DocumentReturn2.png"};
 

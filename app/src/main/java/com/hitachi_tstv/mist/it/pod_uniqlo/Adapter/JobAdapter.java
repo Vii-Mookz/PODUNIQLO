@@ -28,10 +28,13 @@ import butterknife.ButterKnife;
 public class JobAdapter extends BaseAdapter {
     private static final String TAG = JobAdapter.class.getSimpleName();
     private Context context;
-    private String[]  storeCodeStrings,locationStrings,loginStrings,numberStrings, doNoStrings,storeTypeStrings;
+    private String[]  storeCodeStrings,locationStrings,loginStrings,numberStrings, doNoStrings,storeTypeStrings,runningNoStrings;
     private ViewHolder viewHolder;
+    private String name = "JobAdapter";
+    private String deliveryDateString;
 
-    public JobAdapter(Context context,String[] storeCodeStrings,String[] locationStrings ,String[] loginStrings , String[] numberStrings , String[] doNoStrings,String[] storeTypeStrings) {
+
+    public JobAdapter(Context context, String[] storeCodeStrings, String[] locationStrings , String[] loginStrings , String[] numberStrings , String[] doNoStrings, String[] storeTypeStrings, String[] runningNoStrings,String deliveryDateString) {
         this.context = context;
         this.storeCodeStrings = storeCodeStrings;
         this.locationStrings = locationStrings;
@@ -39,6 +42,9 @@ public class JobAdapter extends BaseAdapter {
         this.numberStrings = numberStrings;
         this.doNoStrings = doNoStrings;
         this.storeTypeStrings = storeTypeStrings;
+        this.runningNoStrings = runningNoStrings;
+        this.deliveryDateString = deliveryDateString;
+
     }
 
     @Override
@@ -72,7 +78,7 @@ public class JobAdapter extends BaseAdapter {
         viewHolder.linearTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: " + Arrays.toString(loginStrings));
+                Log.d(name +"TAG:", "onClick: " + Arrays.toString(loginStrings));
                 FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -84,10 +90,12 @@ public class JobAdapter extends BaseAdapter {
                 bundle.putString("StoreCode", storeCodeStrings[i]);
                 bundle.putString("Location",locationStrings[i]);
                 bundle.putString("StoreType",storeTypeStrings[i]);
+                bundle.putString("Running_No" ,runningNoStrings[i]);
+                bundle.putString("Date", deliveryDateString);
 
                 jobFragment.setArguments(bundle);
 
-                fragmentTransaction.replace(R.id.contentFragment, jobFragment);
+                fragmentTransaction.replace(R.id.contentFragment, jobFragment,"Job").addToBackStack(null);
                 fragmentTransaction.commit();
 
             }
