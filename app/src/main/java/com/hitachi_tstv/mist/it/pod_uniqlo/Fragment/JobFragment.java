@@ -589,6 +589,7 @@ public class JobFragment extends Fragment {
 
         }
     }
+
     @OnClick({R.id.btn_savepic, R.id.btn_transfer, R.id.btn_arrival, R.id.btn_confirm, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7})
     public void onViewClicked(View view) {
         switch (view.getId()) {
