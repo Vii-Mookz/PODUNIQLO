@@ -45,7 +45,7 @@ public class DateDeliveryFragment extends Fragment {
 
     Unbinder unbinder;
     String[] loginStrings, deliveryDateStrings, doAmountStrings;
-    String dateString;
+    String dateString,truckIDString;
     @BindView(R.id.lisDADate)
     ListView lisDADate;
     String name = "DateDeliveryFragment";
@@ -64,6 +64,8 @@ public class DateDeliveryFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         loginStrings = getArguments().getStringArray("Login");
         dateString = getArguments().getString("Date");
+        truckIDString = getArguments().getString("TruckID");
+
 
         SyncGetDate syncGetDate = new SyncGetDate(getActivity());
         syncGetDate.execute();
@@ -72,30 +74,6 @@ public class DateDeliveryFragment extends Fragment {
 
     }
 
-
-    //        @OnClick(R.id.lisDADate)
-//    public void onViewClicked(AdapterView<?> parent, View view, int position, long id) {
-//
-//
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//            ListJobFragment listJobFragment = new ListJobFragment();
-//            Bundle bundle = new Bundle();
-//
-//            bundle.putStringArray("Login", loginStrings);
-//            bundle.putString("Date", deliveryDateStrings[position]);
-//
-//
-//            listJobFragment.setArguments(bundle);
-//
-//            fragmentTransaction.replace(R.id.contentFragment, listJobFragment);
-//            fragmentTransaction.commit();
-//
-//
-//            Log.d("Tag", "Send ==> " + deliveryDateStrings[position] + " " + Arrays.toString(loginStrings));
-//
-//        }
     class SyncGetDate extends AsyncTask<Void, Void, String> {
         Context context;
 
@@ -115,7 +93,7 @@ public class DateDeliveryFragment extends Fragment {
 
                 // 2. assign get data
 
-                Request request = new Request.Builder().url(Constant.urlGetDate + loginStrings[2]).build();
+                Request request = new Request.Builder().url(Constant.urlGetDate + truckIDString).build();
 //                Request request = new Request.Builder().url(Constant.urlGetJobList +truckIDString +"/"+deliveryDateString).build();
 
                 // 3. transport request to server
@@ -230,7 +208,7 @@ public class DateDeliveryFragment extends Fragment {
                         bundle.putStringArray("Login", loginStrings);
                         bundle.putString("Date", deliveryDateStrings[i]);
                         bundle.putString("DoNo", doAmountStrings[i]);
-
+                        bundle.putString("TruckID", truckIDString);
 
                         listJobFragment.setArguments(bundle);
 

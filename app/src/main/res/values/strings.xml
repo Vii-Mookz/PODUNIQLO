@@ -14,6 +14,7 @@
     <string name="departure">Departure</string>
     <string name="transfer">Return</string>
     <string name="save">save</string>
+    <string name="savedata">Do you want to save data?</string>
     <string name="check_back">Please click BACK again to back page</string>
     <string name="refresh">refresh</string>
     <string name="logout">logout</string>
@@ -25,4 +26,9 @@
     <string name="errLogin">Login Fail!! Please Try Again</string>
     <string name="arrivalDialog">Arrival complete</string>
     <string name="gps_err">Please click when you arrived</string>
+    <string name="loading">Loading</string>
+    <string name="save_pic_success">Save Success</string>
+    <string name="save_pic_unsuccess">Save unsuccess</string>
+    <string name="take_photo">Please Take a photo</string>
+    <string name="departureDialog">Do you want Departure?</string>
 </resources>

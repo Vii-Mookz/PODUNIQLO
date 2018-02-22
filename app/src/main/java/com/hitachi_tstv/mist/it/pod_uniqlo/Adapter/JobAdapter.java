@@ -1,7 +1,9 @@
 package com.hitachi_tstv.mist.it.pod_uniqlo.Adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,13 +30,13 @@ import butterknife.ButterKnife;
 public class JobAdapter extends BaseAdapter {
     private static final String TAG = JobAdapter.class.getSimpleName();
     private Context context;
-    private String[]  storeCodeStrings,locationStrings,loginStrings,numberStrings, doNoStrings,storeTypeStrings,runningNoStrings;
+    private String[]  storeCodeStrings,locationStrings,loginStrings,numberStrings, doNoStrings,storeTypeStrings,runningNoStrings,statusStrings;
     private ViewHolder viewHolder;
     private String name = "JobAdapter";
     private String deliveryDateString;
 
 
-    public JobAdapter(Context context, String[] storeCodeStrings, String[] locationStrings , String[] loginStrings , String[] numberStrings , String[] doNoStrings, String[] storeTypeStrings, String[] runningNoStrings,String deliveryDateString) {
+    public JobAdapter(Context context, String[] storeCodeStrings, String[] locationStrings , String[] loginStrings , String[] numberStrings , String[] doNoStrings, String[] storeTypeStrings, String[] runningNoStrings,String deliveryDateString, String[] statusStrings) {
         this.context = context;
         this.storeCodeStrings = storeCodeStrings;
         this.locationStrings = locationStrings;
@@ -44,6 +46,7 @@ public class JobAdapter extends BaseAdapter {
         this.storeTypeStrings = storeTypeStrings;
         this.runningNoStrings = runningNoStrings;
         this.deliveryDateString = deliveryDateString;
+        this.statusStrings = statusStrings;
 
     }
 
@@ -62,6 +65,7 @@ public class JobAdapter extends BaseAdapter {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         if (view == null) {
@@ -75,6 +79,14 @@ public class JobAdapter extends BaseAdapter {
         viewHolder.DOTextviewTL.setText("DO No. "+doNoStrings[i]);
         viewHolder.sourceTxt.setText("Source Code: "+storeCodeStrings[i]);
         viewHolder.locationTxt.setText("Location: "+locationStrings[i]);
+        if (statusStrings[i].equals("Complete")) {
+                viewHolder.linearTrip.setForeground(context.getDrawable(R.drawable.layout_bg_3));
+                viewHolder.linearTrip.setClickable(true);
+
+        } else {
+            viewHolder.linearTrip.setForeground(null);
+            viewHolder.linearTrip.setClickable(false);
+
         viewHolder.linearTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +112,7 @@ public class JobAdapter extends BaseAdapter {
 
             }
         });
+        }
         return view;
     }
 

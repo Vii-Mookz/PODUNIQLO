@@ -14,10 +14,12 @@ public interface Constant {
     String urlGetJobList = serverString + projectString + "/Service.svc/GetJobList/";
     String urlGetDate = serverString + projectString + "/Service.svc/GetJobTotalList/";
     String urlGetJobDetail = serverString + projectString + "/Service.svc/GetJobDetail/";
+    String urlGetJobDetailTransfer = serverString + projectString + "/Service.svc/GetJobDetailTransfer/";
     //POST
     String urlSaveTimeStamp = serverString + projectString + "/Service.svc/SaveTimeStampOfStore";
     String urlSaveImage= serverString + projectString + "/Service.svc/SaveImage";
     String urlSaveTotalTransfer = serverString + projectString + "/Service.svc/SaveTotalTransfer";
+
 
 
 

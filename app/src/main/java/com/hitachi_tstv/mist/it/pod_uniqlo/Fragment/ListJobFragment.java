@@ -1,17 +1,14 @@
 package com.hitachi_tstv.mist.it.pod_uniqlo.Fragment;
 
 
-import android.content.ComponentName;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.IntentCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +20,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Adapter.JobAdapter;
@@ -56,7 +52,7 @@ public class ListJobFragment extends Fragment {
 
     String TAG = ListJobFragment.class.getSimpleName();
     String[] doNoStrings, storeCodeStrings, locationStrings, runningNoStrings, storeTypeStrings, statusStrings, numberStrings, loginStrings, driverNameStrings;
-    String dateString, truckString, deliveryDateString;
+    String dateString, truckString, deliveryDateString,truckIDString;
     String name = "ListJobFragment ";
 
     @BindView(R.id.truckIdLblTrip)
@@ -77,8 +73,9 @@ public class ListJobFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.logout, menu);
         super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     @Override
@@ -89,15 +86,17 @@ public class ListJobFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.alert);
                 dialog.setCancelable(true);
-                dialog.setIcon(R.drawable.warning);
+//                dialog.setIcon(R.drawable.warning);
                 dialog.setMessage(R.string.alert_logout);
 
                 dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getContext(), MainFragment.class);
-                        ComponentName componentName = intent.getComponent();
-                        Intent backToMainIntent = IntentCompat.makeRestartActivityTask(componentName);
-                        startActivity(backToMainIntent);
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        MainFragment mainFragment = new MainFragment();
+                        fragmentTransaction.replace(R.id.contentFragment, mainFragment,"main").addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
 
@@ -121,6 +120,8 @@ public class ListJobFragment extends Fragment {
         // Inflate the layout for this fragment
         loginStrings = getArguments().getStringArray("Login");
         deliveryDateString = getArguments().getString("Date");
+        truckIDString = getArguments().getString("TruckID");
+        setHasOptionsMenu(true);
 //        deliveryDateString = "";
 
 //        deliveryDateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -152,7 +153,7 @@ public class ListJobFragment extends Fragment {
 //        Log.d("TAG:", "Bool 1 ==> " + (deliveryDateString.equals("")) + " Bool 2 ==> " + (deliveryDateString == "") + " Date ==> " + deliveryDateString);
 //        if (!(deliveryDateString.equals(""))) {
         if (!(deliveryDateString == "")) {
-            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[2], deliveryDateString);
+            SynGetJobList synGetJobList = new SynGetJobList(this, truckIDString, deliveryDateString);
             synGetJobList.execute();
 
         } else {
@@ -160,7 +161,7 @@ public class ListJobFragment extends Fragment {
 //            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[2]);
 //            synGetJobList.execute();
         }
-        setHasOptionsMenu(true);
+
         return view;
     }
 
@@ -180,6 +181,7 @@ public class ListJobFragment extends Fragment {
             DateDeliveryFragment dateDeliveryFragment = new DateDeliveryFragment();
             Bundle args = new Bundle();
             args.putStringArray("Login", loginStrings);
+            args.putString("TruckID",truckIDString);
             dateDeliveryFragment.setArguments(args);
 
             fragmentTransaction.replace(R.id.contentFragment, dateDeliveryFragment,"DeliveryDate");
@@ -278,7 +280,7 @@ public class ListJobFragment extends Fragment {
                 dateBtnTrip.setText(deliveryDateString);
                 Log.d(name +"TAG:" , "dateString" + deliveryDateString);
                 Log.d(name +"TAG:" , "truck" + truckIDString);
-                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings,runningNoStrings,deliveryDateString);
+                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings,runningNoStrings,deliveryDateString,statusStrings);
                 tripListviewTrip.setAdapter(jobAdapter);
 
 

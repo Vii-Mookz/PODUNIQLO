@@ -2,10 +2,7 @@ package com.hitachi_tstv.mist.it.pod_uniqlo.Fragment;
 
 
 import android.Manifest;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,8 +16,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +23,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.Login;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
-import com.hitachi_tstv.mist.it.pod_uniqlo.MainActivity;
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
 
 import org.json.JSONArray;
@@ -67,7 +60,7 @@ public class MainFragment extends Fragment {
 
 
     private String usernameString, passwordString;
-    private String[] loginStrings,    truckRegString,driverNameString,driverSurname,transportIDString;
+    private String[] loginStrings,    truckRegString,driverNameString,driverSurname,transportIDString,truckIDString;
     String TAG = MainFragment.class.getSimpleName();
     String name = "MainFragment ";
 
@@ -232,6 +225,7 @@ public class MainFragment extends Fragment {
 
 
                     JSONArray dataJsonArray = jsonObject.getJSONArray("data");
+                    truckIDString = new String[dataJsonArray.length()];
                     truckRegString = new String[dataJsonArray.length()];
                     driverNameString= new String[dataJsonArray.length()];
                     driverSurname = new String[dataJsonArray.length()];
@@ -241,6 +235,7 @@ public class MainFragment extends Fragment {
 
                     for (int i = 0; i<dataJsonArray.length();i++) {
                         JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
+                        truckIDString[i] = jsonObject1.getString("TruckCode");
                         truckRegString[i] = jsonObject1.getString("TruckReg");
                         driverNameString[i] = jsonObject1.getString("DriverName");
                         driverSurname[i] = jsonObject1.getString("Driversirname");
@@ -249,7 +244,7 @@ public class MainFragment extends Fragment {
                     }
 
 
-                    String[] loginStrings = new String[]{driverNameString[0], driverSurname[0], truckRegString[0], usernameString};
+                    String[] loginStrings = new String[]{driverNameString[0], driverSurname[0], truckRegString[0], usernameString,truckIDString[0]};
 
                     String loginstringsArrays = Arrays.toString(loginStrings);
 
@@ -262,6 +257,7 @@ public class MainFragment extends Fragment {
                     Bundle args = new Bundle();
                     args.putStringArray("Login", loginStrings);
                     args.putString("TruckReg" ,truckRegString[0]);
+                    args.putString("TruckID",truckIDString[0]);
                     args.putString("Date","");
                     listJobFragment.setArguments(args);
 
