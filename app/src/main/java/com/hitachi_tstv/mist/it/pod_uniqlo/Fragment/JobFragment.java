@@ -315,20 +315,20 @@ public class JobFragment extends Fragment {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
             UploadImageUtils uploadImageUtils = new UploadImageUtils();
-            String package1 ="Package";
             final String result = uploadImageUtils.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap, runningNoString, "P");
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
             try {
 
-                Log.d(name + "TAG:", "Photo: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString);
+                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString);
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("pTruckId", loginStrings[4]);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "FT");
+
                     if (mFileNameString.equals("PDT_1_Package1.png") || mFileNameString.equals("PDT_2_Package2.png")) {
                         jsonObject.put("pImgType", "PDT");
                     } else if (mFileNameString.equals("DOC_1_Document1.png") || mFileNameString.equals("DOC_2_Document2.png")){
@@ -589,7 +589,6 @@ public class JobFragment extends Fragment {
 
         }
     }
-
     @OnClick({R.id.btn_savepic, R.id.btn_transfer, R.id.btn_arrival, R.id.btn_confirm, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -629,14 +628,12 @@ public class JobFragment extends Fragment {
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if (!(latitude == null)) {
-//
                                 SynUpdateArrival syncUpdateArrival = new SynUpdateArrival(latitude, longitude, utilityClass.getTimeString(), getActivity());
                                 syncUpdateArrival.execute();
                             } else {
-//
                                 Toast.makeText(getActivity(), getResources().getString(R.string.gps_err), Toast.LENGTH_LONG).show();
-//                                    }
                             }
+
                         }
                     });
 
@@ -670,7 +667,11 @@ public class JobFragment extends Fragment {
 //                                    Toast.makeText(getActivity(), getResources().getString(R.string.take_photo), Toast.LENGTH_LONG).show();
                                     SynUpdateDeparture synUpdateDeparture = new SynUpdateDeparture(latitude, longitude, utilityClass1.getTimeString(), getActivity());
                                     synUpdateDeparture.execute();
-                                    getActivity().getFragmentManager().popBackStack();
+                                FragmentManager fragmentManager = getFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                JobFragment jobFragment = new JobFragment();
+                                fragmentTransaction.replace(R.id.contentFragment, jobFragment,"Job").addToBackStack(null);
+                                fragmentTransaction.commit();
 //                            } else {
 //
 //                                    }
