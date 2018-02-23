@@ -8,7 +8,6 @@ public interface Constant {
 
     String serverString = "http://203.154.103.42/";
     String projectString = "ServiceTransport";
-//    static final String urlGetUser = serverString + projectString + pathString + "ServiceUniqlo/getUser.php";
     //GET
     String urlGetUser = serverString + projectString + "/Service.svc/getUserLogin/";
     String urlGetJobList = serverString + projectString + "/Service.svc/GetJobList/";

@@ -52,7 +52,7 @@ public class ListJobFragment extends Fragment {
 
     String TAG = ListJobFragment.class.getSimpleName();
     String[] doNoStrings, storeCodeStrings, locationStrings, runningNoStrings, storeTypeStrings, statusStrings, numberStrings, loginStrings, driverNameStrings;
-    String dateString, truckString, deliveryDateString,truckIDString;
+    String dateString, truckString, deliveryDateString, truckIDString;
     String name = "ListJobFragment ";
 
     @BindView(R.id.truckIdLblTrip)
@@ -86,7 +86,7 @@ public class ListJobFragment extends Fragment {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.alert);
                 dialog.setCancelable(true);
-//                dialog.setIcon(R.drawable.warning);
+                dialog.setIcon(R.drawable.warning);
                 dialog.setMessage(R.string.alert_logout);
 
                 dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -95,7 +95,7 @@ public class ListJobFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         MainFragment mainFragment = new MainFragment();
-                        fragmentTransaction.replace(R.id.contentFragment, mainFragment,"main").addToBackStack(null);
+                        fragmentTransaction.replace(R.id.contentFragment, mainFragment, "main").addToBackStack(null);
                         fragmentTransaction.commit();
                     }
                 });
@@ -108,7 +108,24 @@ public class ListJobFragment extends Fragment {
 
                 dialog.show();
                 break;
-
+//            case R.id.refresh:
+//                FragmentManager fragmentManager = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//                ListJobFragment listJobFragment = new ListJobFragment();
+//                Bundle bundle = new Bundle();
+//
+//                bundle.putStringArray("Login", loginStrings);
+//                bundle.putStringArray("DO", doNoStrings);
+//                bundle.putStringArray("StoreCode", storeCodeStrings);
+//                bundle.putStringArray("Location",locationStrings);
+//                bundle.putStringArray("StoreType",storeTypeStrings);
+//                bundle.putStringArray("Running_No" ,runningNoStrings);
+//                bundle.putString("Date", deliveryDateString);
+//
+//                listJobFragment.setArguments(bundle);
+//                fragmentTransaction.commit();
+//                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -129,7 +146,7 @@ public class ListJobFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_job, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        Log.d(name +"TAG:" , "onCreateView: " + (deliveryDateString== null));
+        Log.d(name + "TAG:", "onCreateView: " + (deliveryDateString == null));
         if (driverNameStrings == null) {
 //
             if (loginStrings[1].equals("null")) {
@@ -146,7 +163,7 @@ public class ListJobFragment extends Fragment {
 
 
         if (!(deliveryDateString == null)) {
-            Log.d(name +"TAG:" ,"DATE11"+ deliveryDateString);
+            Log.d(name + "TAG:", "DATE11" + deliveryDateString);
 
         }
 
@@ -174,24 +191,22 @@ public class ListJobFragment extends Fragment {
     @OnClick(R.id.dateBtnTrip)
     public void onViewClicked() {
 
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            //Send Arguments
-            DateDeliveryFragment dateDeliveryFragment = new DateDeliveryFragment();
-            Bundle args = new Bundle();
-            args.putStringArray("Login", loginStrings);
-            args.putString("TruckID",truckIDString);
-            dateDeliveryFragment.setArguments(args);
+        //Send Arguments
+        DateDeliveryFragment dateDeliveryFragment = new DateDeliveryFragment();
+        Bundle args = new Bundle();
+        args.putStringArray("Login", loginStrings);
+        args.putString("TruckID", truckIDString);
+        dateDeliveryFragment.setArguments(args);
 
-            fragmentTransaction.replace(R.id.contentFragment, dateDeliveryFragment,"DeliveryDate");
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+        fragmentTransaction.replace(R.id.contentFragment, dateDeliveryFragment, "DeliveryDate");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
 
     }
-
-
 
 
     protected class SynGetJobList extends AsyncTask<Void, Void, String> {
@@ -220,29 +235,29 @@ public class ListJobFragment extends Fragment {
                 // 2. assign get data
 
 //                Request request = new Request.Builder().url(Constant.urlGetJobList + truckIDString + "/" + "02-02-2018").build();
-                Request request = new Request.Builder().url(Constant.urlGetJobList +truckIDString +"/"+deliveryDateString).build();
+                Request request = new Request.Builder().url(Constant.urlGetJobList + truckIDString + "/" + deliveryDateString).build();
 
                 // 3. transport request to server
                 Response response = client.newCall(request).execute();
 
                 String result = response.body().string();
                 String refomat1 = reformat(result);
-                Log.d(name +"TAG:" , "Request:" + request);
+                Log.d(name + "TAG:", "Request:" + request);
 
-                Log.d(name +"TAG:" , "ResultGetJobList" + refomat1);
+                Log.d(name + "TAG:", "ResultGetJobList" + refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
                 GetJobList getJobList = gson.fromJson(refomat1, GetJobList.class);
 
-                Log.d(name +"TAG:", "Getdata" + String.valueOf(getJobList.getData().size()));
-                Log.d(name +"TAG:", "StoreCode" + getJobList.getData().get(0).getStoreCode());
+                Log.d(name + "TAG:", "Getdata" + String.valueOf(getJobList.getData().size()));
+                Log.d(name + "TAG:", "StoreCode" + getJobList.getData().get(0).getStoreCode());
 
                 return refomat1;
 
             } catch (Exception e) {
-                Log.d(name +"TAG:", "Error1: " + e.getMessage().toString());
+                Log.d(name + "TAG:", "Error1: " + e.getMessage().toString());
 //                Log.d("TAG:","UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
@@ -251,7 +266,7 @@ public class ListJobFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d(name +"TAG:" , s);
+            Log.d(name + "TAG:", s);
 
             try {
                 JSONObject jsonObject = new JSONObject(s);
@@ -278,15 +293,15 @@ public class ListJobFragment extends Fragment {
 
 //                dateBtnTrip.setText(jsonObject.getString("dateDel"));
                 dateBtnTrip.setText(deliveryDateString);
-                Log.d(name +"TAG:" , "dateString" + deliveryDateString);
-                Log.d(name +"TAG:" , "truck" + truckIDString);
-                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings,runningNoStrings,deliveryDateString,statusStrings);
+                Log.d(name + "TAG:", "dateString" + deliveryDateString);
+                Log.d(name + "TAG:", "truck" + truckIDString);
+                JobAdapter jobAdapter = new JobAdapter(getActivity(), storeCodeStrings, locationStrings, loginStrings, numberStrings, doNoStrings, storeTypeStrings, runningNoStrings, deliveryDateString, statusStrings);
                 tripListviewTrip.setAdapter(jobAdapter);
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.d(name +"TAG:" , "e doInBack ==>" + e.toString() + "line::" + e.getStackTrace()[0].getLineNumber());
+                Log.d(name + "TAG:", "e doInBack ==>" + e.toString() + "line::" + e.getStackTrace()[0].getLineNumber());
             }
 
 

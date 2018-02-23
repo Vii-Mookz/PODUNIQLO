@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">POD-UNIQLO</string>
+    <string name="Date">วันที่</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="job">งาน</string>
+    <string name="truck_license">ทะเบียนรถ :</string>
+    <string name="driver_name">ชื่อผู้ขับ :</string>
+    <string name="box">Cartons</string>
+    <string name="total">จำนวน</string>
+    <string name="arrival">ถึงจุดหมาย</string>
+    <string name="savepic">บันทึกรูป</string>
+    <string name="departure">ออกเดินทาง</string>
+    <string name="transfer">Return</string>
+    <string name="save">บันทึก</string>
+    <string name="savedata">คุณต้องการบันทึกข้อมูลใช่หรือไม่?</string>
+    <string name="check_back">Please click BACK again to back page</string>
+    <string name="refresh">refresh</string>
+    <string name="logout">ออกจากระบบ</string>
+    <string name="alert">แจ้งเตือน</string>
+    <string name="alert_logout">คุณต้องการออกจากระบบใช่หรือไม่?</string>
+    <string name="yes">ตกลง</string>
+    <string name="no">ยกเลิก</string>
+    <string name="source_code">รหัสสโตร์ :</string>
+    <string name="errLogin">เข้าสู่ระบบผิดพลาด กรุณาตรวจสอบ ชื่อผู้ใช้งาน/รหัสผ่าน อีกครั้ง</string>
+    <string name="arrivalDialog">คุณถึงจุดหมายแล้วใช่หรือไม่?</string>
+    <string name="gps_err">ไม่สามารถรับ พิกัดได้ กรุณาลองใหม่อีกครั้ง</string>
+    <string name="loading">กำลังโหลด...</string>
+    <string name="save_pic_success">การบันทึกภาพสำเร็จ</string>
+    <string name="save_pic_unsuccess">บันทึกรูปไม่สำเร็จลองใหม่อีกครั้ง</string>
+    <string name="take_photo">กรุณาถ่ายรูปอย่างน้อย1 รูป</string>
+    <string name="departureDialog">ยืนยันการรับ/ส่งสินค้าแล้วใช่หรือไม่?</string>
+    <string name="err_gps1">ไม่สามารถรับ พิกัดได้ กรุณาลองใหม่อีกครั้ง</string>
+    <string name="do_no">หมายเลข Do :</string>
+    <string name="location">สถานที่ :</string>
+    <string name="cartons">Carton</string>
+</resources>

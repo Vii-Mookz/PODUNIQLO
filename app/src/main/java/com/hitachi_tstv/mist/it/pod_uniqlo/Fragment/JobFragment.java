@@ -621,7 +621,7 @@ public class JobFragment extends Fragment {
 
                     AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
                     dialog.setTitle(R.string.alert);
-//                    dialog.setIcon(R.drawable.warning);
+                    dialog.setIcon(R.drawable.warning);
                     dialog.setCancelable(true);
                     dialog.setMessage(R.string.arrivalDialog);
 
