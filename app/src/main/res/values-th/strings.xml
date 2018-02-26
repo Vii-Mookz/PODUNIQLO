@@ -13,7 +13,7 @@
     <string name="arrival">ถึงจุดหมาย</string>
     <string name="savepic">บันทึกรูป</string>
     <string name="departure">ออกเดินทาง</string>
-    <string name="transfer">Return</string>
+    <string name="transfer">รับสินค้าคืน</string>
     <string name="save">บันทึก</string>
     <string name="savedata">คุณต้องการบันทึกข้อมูลใช่หรือไม่?</string>
     <string name="check_back">Please click BACK again to back page</string>
@@ -36,4 +36,6 @@
     <string name="do_no">หมายเลข Do :</string>
     <string name="location">สถานที่ :</string>
     <string name="cartons">Carton</string>
+    <string name="login">เข้าสู่ระบบ</string>
+    <string name="plase_date">กรุณาเลือกวันที่</string>
 </resources>

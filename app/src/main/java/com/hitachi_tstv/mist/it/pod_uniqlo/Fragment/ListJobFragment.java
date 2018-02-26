@@ -174,7 +174,7 @@ public class ListJobFragment extends Fragment {
             synGetJobList.execute();
 
         } else {
-            dateBtnTrip.setText("Please Select Date");
+            dateBtnTrip.setText(getResources().getString(R.string.plase_date));
 //            SynGetJobList synGetJobList = new SynGetJobList(this, loginStrings[2]);
 //            synGetJobList.execute();
         }

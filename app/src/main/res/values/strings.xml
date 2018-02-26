@@ -35,4 +35,6 @@
     <string name="do_no">Do No. :</string>
     <string name="location">Location :</string>
     <string name="cartons">Carton</string>
+    <string name="login">Login</string>
+    <string name="plase_date">Please Select Date</string>
 </resources>

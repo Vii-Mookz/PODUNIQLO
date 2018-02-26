@@ -397,7 +397,6 @@ public class JobFragment extends Fragment {
                 try {
                     jsonObject.put("pCheckType", arrival);
                     jsonObject.put("pLatitude", latString);
-                    jsonObject.put("pLongitude", longString);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pTruckId", loginStrings[4]);
                     jsonObject.put("pUser", loginStrings[3]);
@@ -455,7 +454,6 @@ public class JobFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("pCheckType", departure);
-                    jsonObject.put("pLatitude", latString);
                     jsonObject.put("pLongitude", longString);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pTruckId", loginStrings[4]);
@@ -701,7 +699,7 @@ public class JobFragment extends Fragment {
                 break;
             case R.id.img_5:
                 if (!imgPack2ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[1]);
                     Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     pack2Uri = Uri.fromFile(originalFile1);
                     cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, pack2Uri);
@@ -710,7 +708,7 @@ public class JobFragment extends Fragment {
                 break;
             case R.id.img_6:
                 if (!imgDoc1ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[2]);
                     Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     doc1Uri = Uri.fromFile(originalFile1);
                     cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, doc1Uri);
@@ -719,7 +717,7 @@ public class JobFragment extends Fragment {
                 break;
             case R.id.img_7:
                 if (!imgDoc2ABoolean) {
-                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[0]);
+                    File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[3]);
                     Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     doc2Uri = Uri.fromFile(originalFile1);
                     cameraIntent1.putExtra(MediaStore.EXTRA_OUTPUT, doc2Uri);

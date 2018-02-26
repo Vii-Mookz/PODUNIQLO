@@ -193,7 +193,7 @@ public class DateDeliveryFragment extends Fragment {
                 date = getResources().getString(R.string.Date) + " : " + deliveryDateStrings[i];
 //            job = jobStrings[position] + " " + getResources().getString(R.string.trip);
                 dateViewHolder.txtDLVDate.setText(date);
-                dateViewHolder.txtDLVSumjob.setText(doAmountStrings[i]);
+                dateViewHolder.txtDLVSumjob.setText(doAmountStrings[i] );
                 dateViewHolder.linearDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
