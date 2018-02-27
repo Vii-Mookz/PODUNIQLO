@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +34,17 @@ import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.GetJobDetail;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
-import com.hitachi_tstv.mist.it.pod_uniqlo.UploadImageUtils;
+import com.hitachi_tstv.mist.it.pod_uniqlo.UploadImageUtils1;
 import com.hitachi_tstv.mist.it.pod_uniqlo.UtilityClass;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -104,7 +107,7 @@ public class JobFragment extends Fragment {
     Boolean imgPack1ABoolean, imgPack2ABoolean, imgDoc1ABoolean, imgDoc2ABoolean;
     private String pathPack1String, pathPack2String, pathDoc1String, pathDoc2String;
     String storeCodeString, locationString, doNoString, storeTypeString, runningNoString, deliveryDateString;
-    String[] indexFileNameStrings, fileNameStrings, filePathStrings, loginStrings,imgPathStrings,imgFileNameSrings,imagePlacementStrings;
+    String[] indexFileNameStrings, fileNameStrings, filePathStrings, loginStrings,imgPathStrings,imgFileNameSrings,imagePlacementStrings,arrivalTimeStrings,departTimeStrings,imgaeFileStrings;
     Bitmap imgPackage1Bitmap, imgPackage2Bitmap, imgDoc1Bitmap, imgDoc2Bitmap;
     Uri pack1Uri, pack2Uri, doc1Uri, doc2Uri;
     String name = "JobFragment ";
@@ -147,7 +150,7 @@ public class JobFragment extends Fragment {
     private void setData() {
 
 
-        indexFileNameStrings = new String[]{"PDT_1_Package1.png", "PDT_2_Package2.png", "DOC_1_Document1.png", "DOC_2_Document2.png"};
+        indexFileNameStrings = new String[]{"PDT_1_Package1.jpg", "PDT_2_Package2.jpg", "DOC_1_Document1.jpg", "DOC_2_Document2.jpg"};
 
         fileNameStrings = new String[indexFileNameStrings.length];
         filePathStrings = new String[indexFileNameStrings.length];
@@ -285,6 +288,43 @@ public class JobFragment extends Fragment {
     }
 // Pic
 
+    private void writeToSDFile(Bitmap bitmap){
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        if (bitmap.getWidth() > bitmap.getHeight()) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, 1600, 1200, false);
+        } else {
+            bitmap = Bitmap.createScaledBitmap(bitmap, 1200, 1600, false);
+
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+        byte[] data = baos.toByteArray();
+
+        data[13] = 00000001;
+        data[14] = 00000001;
+        data[15] = (byte) 244;
+        data[16] =  00000001;
+
+        File target = Environment.getExternalStorageDirectory();
+        File file = new File(target.getAbsolutePath(),"/DCIM/");
+        if(!file.exists()){
+            file.mkdir();
+        }
+        Log.d("TAG:", "writeToSDFile: " + file.getAbsolutePath().toString());
+
+        try{
+            File gpxfile = new File(file, "myData.txt");
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(Base64.encodeToString(data, Base64.DEFAULT));
+            writer.flush();
+            writer.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+    }
+
 //Send Photo
     class SyncUploadPicture extends AsyncTask<Void, Void, String> {
         Context context;
@@ -314,24 +354,26 @@ public class JobFragment extends Fragment {
         protected String doInBackground(Void... voids) {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
-            UploadImageUtils uploadImageUtils = new UploadImageUtils();
-            final String result = uploadImageUtils.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap, runningNoString, "P");
+            UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
+            writeToSDFile(bitmap);
+            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap);
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
             try {
 
-                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString);
+                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString +","+ result);
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("pTruckId", loginStrings[4]);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "FT");
+                    jsonObject.put("pImgFile", result);
 
-                    if (mFileNameString.equals("PDT_1_Package1.png") || mFileNameString.equals("PDT_2_Package2.png")) {
+                    if (mFileNameString.equals("PDT_1_Package1.jpg") || mFileNameString.equals("PDT_2_Package2.jpg")) {
                         jsonObject.put("pImgType", "PDT");
-                    } else if (mFileNameString.equals("DOC_1_Document1.png") || mFileNameString.equals("DOC_2_Document2.png")){
+                    } else if (mFileNameString.equals("DOC_1_Document1.jpg") || mFileNameString.equals("DOC_2_Document2.jpg")){
                         jsonObject.put("pImgType", "DOC");
                     }
                     jsonObject.put("pUser", loginStrings[3]);
@@ -344,7 +386,7 @@ public class JobFragment extends Fragment {
                 OkHttpClient okHttpClient = new OkHttpClient();
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                 RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
-                Log.d(name + "TAG:", "Request Body:" + jsonObject.toString());
+                Log.d(name + "TAG:", "Request Body PIC:" + jsonObject.toString());
                 Request.Builder builder = new Request.Builder();
                 Request request = builder.url(Constant.urlSaveImage).post(requestBody).build();
                 Response response = okHttpClient.newCall(request).execute();
@@ -570,6 +612,8 @@ public class JobFragment extends Fragment {
                 imgPathStrings = new String[dataJsonArray.length()];
                 imgFileNameSrings = new String[dataJsonArray.length()];
                 imagePlacementStrings = new String[dataJsonArray.length()];
+                arrivalTimeStrings = new String[dataJsonArray.length()];
+                departTimeStrings = new String[dataJsonArray.length()];
 
 
                 for (int i = 0; i < dataJsonArray.length(); i++) {
@@ -577,6 +621,20 @@ public class JobFragment extends Fragment {
                     imgPathStrings[i] = jsonObject1.getString("ImgPath");
                     imgFileNameSrings[i] = jsonObject1.getString("ImgFileName");
                     imagePlacementStrings[i] = jsonObject1.getString("ImagePlacement");
+                    arrivalTimeStrings[i] = jsonObject1.getString("ArrivalDT");
+                    departTimeStrings[i] = jsonObject1.getString("DepartureDT");
+                    if (! jsonObject1.getString("ArrivalDT").equals("")) {
+                        btnArrival.setEnabled(false);
+                    } else {
+                        btnArrival.setEnabled(true);
+
+                    }
+                    if (! jsonObject1.getString("DepartureDT").equals("")) {
+                        btnConfirm.setEnabled(false);
+                    } else {
+                        btnConfirm.setEnabled(true);
+
+                    }
                 }
                 Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[0] + "imgPathStrings: " + imgPathStrings[0]);
 
@@ -584,6 +642,7 @@ public class JobFragment extends Fragment {
                 Log.d(name + "TAG:", "JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
 
             }
+
 
         }
     }
@@ -595,7 +654,7 @@ public class JobFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 TransferFragment transferFragment = new TransferFragment();
-                Bundle bundle = new Bundle();
+                final Bundle bundle = new Bundle();
 
                 bundle.putStringArray("Login", loginStrings);
                 bundle.putString("DO", doNoString);
@@ -628,8 +687,10 @@ public class JobFragment extends Fragment {
                             if (!(latitude == null)) {
                                 SynUpdateArrival syncUpdateArrival = new SynUpdateArrival(latitude, longitude, utilityClass.getTimeString(), getActivity());
                                 syncUpdateArrival.execute();
+                                Toast.makeText(getActivity(), getResources().getString(R.string.arrival), Toast.LENGTH_LONG).show();
+
                             } else {
-                                Toast.makeText(getActivity(), getResources().getString(R.string.gps_err), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -660,20 +721,18 @@ public class JobFragment extends Fragment {
 
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!(latitude == null)) {
+                            if (!(longitude == null)) {
 //                                if (pathPack1String == null ) {
 //                                    Toast.makeText(getActivity(), getResources().getString(R.string.take_photo), Toast.LENGTH_LONG).show();
                                     SynUpdateDeparture synUpdateDeparture = new SynUpdateDeparture(latitude, longitude, utilityClass1.getTimeString(), getActivity());
                                     synUpdateDeparture.execute();
-                                FragmentManager fragmentManager = getFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                JobFragment jobFragment = new JobFragment();
-                                fragmentTransaction.replace(R.id.contentFragment, jobFragment,"Job").addToBackStack(null);
-                                fragmentTransaction.commit();
-//                            } else {
-//
-//                                    }
-                            }
+                                Toast.makeText(getActivity(), getResources().getString(R.string.departure), Toast.LENGTH_LONG).show();
+                                getFragmentManager().popBackStack();
+
+                            } else {
+                           Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
+                                    }
+//                            }
 //                            }
 
                         }
@@ -717,6 +776,8 @@ public class JobFragment extends Fragment {
                 break;
             case R.id.img_7:
                 if (!imgDoc2ABoolean) {
+
+
                     File originalFile1 = new File(Environment.getExternalStorageDirectory() + "/DCIM/", indexFileNameStrings[3]);
                     Intent cameraIntent1 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     doc2Uri = Uri.fromFile(originalFile1);

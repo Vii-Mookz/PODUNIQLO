@@ -128,7 +128,7 @@ public class TransferFragment extends Fragment {
 
     //Set FileName FilePath
     private void setData() {
-        indexFileNameStrings = new String[]{"PDT_1_PackageReturn1.png", "PDT_2_PackageReturn2.png", "DOC_1_DocumentReturn1.png", "DOC_2_DocumentReturn2.png"};
+        indexFileNameStrings = new String[]{"PDT_1_PackageReturn1.jpg", "PDT_2_PackageReturn2.jpg", "DOC_1_DocumentReturn1.jpg", "DOC_2_DocumentReturn2.jpg"};
 
         fileNameStrings = new String[indexFileNameStrings.length];
         filePathStrings = new String[indexFileNameStrings.length];
@@ -293,23 +293,24 @@ public class TransferFragment extends Fragment {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
             UploadImageUtils uploadImageUtils = new UploadImageUtils();
-            final String result = uploadImageUtils.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap, runningNoString, "P");
+            final String result = uploadImageUtils.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap);
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
             try {
 
-                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString);
+                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString + result);
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("pTruckId", loginStrings[4]);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "RT");
+                    jsonObject.put("pImgFile", result);
 
-                    if (mFileNameString.equals("PDT_1_PackageReturn1.png") || mFileNameString.equals("PDT_2_PackageReturn2.png")) {
+                    if (mFileNameString.equals("PDT_1_PackageReturn1.jpg") || mFileNameString.equals("PDT_2_PackageReturn2.jpg")) {
                         jsonObject.put("pImgType", "PDT");
-                    } else if (mFileNameString.equals("DOC_1_DocumentReturn1.png") || mFileNameString.equals("DOC_2_DocumentReturn2.png")){
+                    } else if (mFileNameString.equals("DOC_1_DocumentReturn1.jpg") || mFileNameString.equals("DOC_2_DocumentReturn2.jpg")){
                         jsonObject.put("pImgType", "DOC");
                     }
                     jsonObject.put("pUser", loginStrings[3]);
@@ -535,7 +536,7 @@ public class TransferFragment extends Fragment {
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
                 dialog.setTitle(R.string.alert);
-//                    dialog.setIcon(R.drawable.warning);
+                    dialog.setIcon(R.drawable.warning);
                 dialog.setCancelable(true);
                 dialog.setMessage(R.string.savedata);
 
@@ -545,23 +546,7 @@ public class TransferFragment extends Fragment {
                         SyncUpdateTotalTransfer syncUpdateTotalTransfer = new SyncUpdateTotalTransfer(getActivity(), TotalEditText.getText().toString());
                         syncUpdateTotalTransfer.execute();
                         Toast.makeText(getActivity(), "Success", Toast.LENGTH_LONG).show();
-//                        FragmentManager fragmentManager = getFragmentManager();
-//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                        JobFragment jobFragment = new JobFragment();
-//                        Bundle bundle = new Bundle();
-//
-//                        bundle.putStringArray("Login", loginStrings);
-//                        bundle.putString("DO", doNoStrings1[0]);
-//                        bundle.putString("StoreCode", storeCodeStrings1[0]);
-//                        bundle.putString("Location", locationStrings1[0]);
-//                        bundle.putString("StoreType", storeTypeStrings1[0]);
-//                        bundle.putString("Running_N", runningNoStrings1[0]);
-//                        bundle.putString("Date", deliveryDateString);
-//                        jobFragment.setArguments(bundle);
-//                        fragmentTransaction.replace(R.id.contentFragment, jobFragment,"Job").addToBackStack(null);
-//                        fragmentTransaction.commit();
-
-
+                        getFragmentManager().popBackStack();
 
                     }
                 });
