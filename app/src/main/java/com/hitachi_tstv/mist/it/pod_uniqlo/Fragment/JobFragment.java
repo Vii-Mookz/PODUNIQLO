@@ -119,6 +119,7 @@ public class JobFragment extends Fragment {
     public JobFragment() {
         // Required empty public constructor
     }
+    //Menu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);

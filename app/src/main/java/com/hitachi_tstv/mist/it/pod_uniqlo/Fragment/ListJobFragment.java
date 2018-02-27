@@ -70,7 +70,7 @@ public class ListJobFragment extends Fragment {
     @BindView(R.id.dateBtnTrip)
     Button dateBtnTrip;
 
-
+//menu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.logout, menu);
