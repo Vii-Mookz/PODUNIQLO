@@ -1,7 +1,6 @@
 package com.hitachi_tstv.mist.it.pod_uniqlo;
 
 import android.graphics.Bitmap;
-import android.util.Base64;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -77,9 +76,9 @@ public class UploadImageUtils1 {
             data[15] = (byte) 244;
             data[16] =  00000001;
             data[17] = (byte) 244;
-            String encodedImage = Base64.encodeToString(data, Base64.DEFAULT);
+//            String encodedImage = Base64.encodeToString(data, Base64.DEFAULT);
 
-            Log.d("VAL-Tag-UIU", "Bitmap ==> " + encodedImage);
+//            Log.d("VAL-Tag-UIU", "Bitmap ==> " + encodedImage);
 
             outputStream.write(data);
 

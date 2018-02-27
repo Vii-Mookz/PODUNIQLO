@@ -392,7 +392,7 @@ public class JobFragment extends Fragment {
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "FT");
-                    jsonObject.put("pImgFile", result);
+//                    jsonObject.put("pImgFile", result);
 
                     if (mFileNameString.equals("PDT_1_Package1.jpg") || mFileNameString.equals("PDT_2_Package2.jpg")) {
                         jsonObject.put("pImgType", "PDT");
