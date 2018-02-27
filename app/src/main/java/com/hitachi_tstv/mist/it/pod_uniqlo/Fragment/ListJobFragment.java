@@ -108,24 +108,11 @@ public class ListJobFragment extends Fragment {
 
                 dialog.show();
                 break;
-//            case R.id.refresh:
-//                FragmentManager fragmentManager = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//                ListJobFragment listJobFragment = new ListJobFragment();
-//                Bundle bundle = new Bundle();
-//
-//                bundle.putStringArray("Login", loginStrings);
-//                bundle.putStringArray("DO", doNoStrings);
-//                bundle.putStringArray("StoreCode", storeCodeStrings);
-//                bundle.putStringArray("Location",locationStrings);
-//                bundle.putStringArray("StoreType",storeTypeStrings);
-//                bundle.putStringArray("Running_No" ,runningNoStrings);
-//                bundle.putString("Date", deliveryDateString);
-//
-//                listJobFragment.setArguments(bundle);
-//                fragmentTransaction.commit();
-//                break;
+
+            case R.id.refresh:
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(this).attach(this).commit();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

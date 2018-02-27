@@ -22,6 +22,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -116,7 +119,25 @@ public class JobFragment extends Fragment {
     public JobFragment() {
         // Required empty public constructor
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.refresh:
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(this).attach(this).commit();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,7 +149,7 @@ public class JobFragment extends Fragment {
         storeTypeString = getArguments().getString("StoreType");
         runningNoString = getArguments().getString("Running_No");
         deliveryDateString = getArguments().getString("Date");
-
+        setHasOptionsMenu(true);
 
         View view = inflater.inflate(R.layout.fragment_job, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -354,9 +375,10 @@ public class JobFragment extends Fragment {
         protected String doInBackground(Void... voids) {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
-            UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
+
             writeToSDFile(bitmap);
-            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap);
+            UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
+            String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap,runningNoString);
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
@@ -378,7 +400,7 @@ public class JobFragment extends Fragment {
                     }
                     jsonObject.put("pUser", loginStrings[3]);
 
-
+                    Log.d(name + "TAG:", "PIC Result: " + result);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -625,16 +647,14 @@ public class JobFragment extends Fragment {
                     departTimeStrings[i] = jsonObject1.getString("DepartureDT");
                     if (! jsonObject1.getString("ArrivalDT").equals("")) {
                         btnArrival.setEnabled(false);
+                        btnConfirm.setEnabled(true);
                     } else {
                         btnArrival.setEnabled(true);
-
-                    }
-                    if (! jsonObject1.getString("DepartureDT").equals("")) {
                         btnConfirm.setEnabled(false);
-                    } else {
-                        btnConfirm.setEnabled(true);
 
                     }
+
+
                 }
                 Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[0] + "imgPathStrings: " + imgPathStrings[0]);
 

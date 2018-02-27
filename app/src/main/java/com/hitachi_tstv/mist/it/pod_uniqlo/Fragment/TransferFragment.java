@@ -31,7 +31,7 @@ import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.GetJobDetailTransfer;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
 import com.hitachi_tstv.mist.it.pod_uniqlo.R;
-import com.hitachi_tstv.mist.it.pod_uniqlo.UploadImageUtils;
+import com.hitachi_tstv.mist.it.pod_uniqlo.UploadImageUtils1;
 import com.hitachi_tstv.mist.it.pod_uniqlo.UtilityClass;
 
 import org.json.JSONArray;
@@ -292,8 +292,8 @@ public class TransferFragment extends Fragment {
         protected String doInBackground(Void... voids) {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
-            UploadImageUtils uploadImageUtils = new UploadImageUtils();
-            final String result = uploadImageUtils.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap);
+            UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
+            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap,runningNoString);
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
