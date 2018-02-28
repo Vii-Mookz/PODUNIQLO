@@ -16,12 +16,14 @@ public interface Constant {
     String urlGetJobDetailTransfer = serverString + projectString + "/Service.svc/GetJobDetailTransfer/";
     //POST
     String urlSaveTimeStamp = serverString + projectString + "/Service.svc/SaveTimeStampOfStore";
-    String urlSaveImage= serverString + projectString + "/Service.svc/SaveImage";
+    String urlSaveImage = serverString + projectString + "/Service.svc/SaveImage";
     String urlSaveTotalTransfer = serverString + projectString + "/Service.svc/SaveTotalTransfer";
 
 
-
-
+    String serverStringphp = "http://203.154.103.43/";
+    String projectStringphp = "TmsUniqloport";
+    String pathString = "/app/CenterService/";
+    String urlUploadImage = serverStringphp + projectStringphp + pathString + "uploadImage.php";
 
 
 }

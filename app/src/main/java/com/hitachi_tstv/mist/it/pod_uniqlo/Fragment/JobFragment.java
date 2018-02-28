@@ -328,7 +328,7 @@ public class JobFragment extends Fragment {
         data[16] =  00000001;
 
         File target = Environment.getExternalStorageDirectory();
-        File file = new File(target.getAbsolutePath(),"/DCIM/");
+        File file = new File(Environment.getExternalStorageDirectory(),"/DCIMA/");
         if(!file.exists()){
             file.mkdir();
         }
@@ -379,7 +379,8 @@ public class JobFragment extends Fragment {
 
             writeToSDFile(bitmap);
             UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
-            String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap,runningNoString);
+            String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlUploadImage, bitmap);
+
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
@@ -392,7 +393,7 @@ public class JobFragment extends Fragment {
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "FT");
-//                    jsonObject.put("pImgFile", result);
+                    jsonObject.put("pImgFile", result);
 
                     if (mFileNameString.equals("PDT_1_Package1.jpg") || mFileNameString.equals("PDT_2_Package2.jpg")) {
                         jsonObject.put("pImgType", "PDT");

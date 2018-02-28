@@ -16,7 +16,7 @@ import java.util.Random;
  */
 
 public class UploadImageUtils1 {
-    public static String uploadFile(String fileNameInServer, String urlServer, Bitmap bitmap,String runningNoString) {
+    public static String uploadFile(String fileNameInServer, String urlServer, Bitmap bitmap) {
         try {
 
             // configurable parameters

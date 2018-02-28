@@ -293,7 +293,7 @@ public class TransferFragment extends Fragment {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
             UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
-            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap,runningNoString);
+            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap);
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
