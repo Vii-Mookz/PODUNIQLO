@@ -16,7 +16,7 @@ import java.util.Random;
  */
 
 public class UploadImageUtils1 {
-    public static String uploadFile(String fileNameInServer, String urlServer, Bitmap bitmap) {
+    public static String uploadFile(String fileNameInServer, String urlServer, Bitmap bitmap,String truck_id) {
         try {
 
             // configurable parameters
@@ -32,7 +32,7 @@ public class UploadImageUtils1 {
             String twoHyphens = "--";
             String boundary = "*****";
 
-            URL url = new URL(urlServer);
+            URL url = new URL(urlServer+"?Truck_Id="+ truck_id);
 
             Log.d("VAL-Tag-UIU", "URL ===> " + url);
             connection = (HttpURLConnection) url.openConnection();
@@ -103,6 +103,8 @@ public class UploadImageUtils1 {
             return sb.toString();
 //            return encodedImage;
         } catch (Exception e) {
+            Log.d("TAG:", "EXXXXXX" + e + "Line: " + e.getStackTrace()[0].getLineNumber());
+            e.printStackTrace();
             return null;
         }
     }

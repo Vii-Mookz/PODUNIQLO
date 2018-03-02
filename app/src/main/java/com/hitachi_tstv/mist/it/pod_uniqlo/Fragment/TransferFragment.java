@@ -293,7 +293,7 @@ public class TransferFragment extends Fragment {
 
             Log.d(name + "TAG:", "PIC: " + " Running_No ==> " + runningNoString + "," + mFileNameString + "," + loginStrings[3]);
             UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
-            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap);
+            final String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlSaveImage, bitmap,loginStrings[4]);
 //            if (result.equals("NOK")) {
 //                return "NOK";
 //            } else {
@@ -306,7 +306,7 @@ public class TransferFragment extends Fragment {
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "RT");
-                    jsonObject.put("pImgFile", result);
+//                    jsonObject.put("pImgFile", result);
 
                     if (mFileNameString.equals("PDT_1_PackageReturn1.jpg") || mFileNameString.equals("PDT_2_PackageReturn2.jpg")) {
                         jsonObject.put("pImgType", "PDT");

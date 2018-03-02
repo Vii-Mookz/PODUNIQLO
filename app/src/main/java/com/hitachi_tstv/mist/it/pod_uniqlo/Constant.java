@@ -21,9 +21,9 @@ public interface Constant {
 
 
     String serverStringphp = "http://203.154.103.43/";
-    String projectStringphp = "TmsUniqloport";
-    String pathString = "/app/CenterService/";
-    String urlUploadImage = serverStringphp + projectStringphp + pathString + "uploadImage.php";
+    String projectStringphp = "TmsUniqlo";
+//    String pathString = "/app/CenterService/";
+    String urlUploadImage = serverStringphp + projectStringphp + "/uploadImage.php";
 
 
 }

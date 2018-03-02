@@ -33,6 +33,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Bean.GetJobDetail;
 import com.hitachi_tstv.mist.it.pod_uniqlo.Constant;
@@ -110,7 +112,7 @@ public class JobFragment extends Fragment {
     Boolean imgPack1ABoolean, imgPack2ABoolean, imgDoc1ABoolean, imgDoc2ABoolean;
     private String pathPack1String, pathPack2String, pathDoc1String, pathDoc2String;
     String storeCodeString, locationString, doNoString, storeTypeString, runningNoString, deliveryDateString;
-    String[] indexFileNameStrings, fileNameStrings, filePathStrings, loginStrings,imgPathStrings,imgFileNameSrings,imagePlacementStrings,arrivalTimeStrings,departTimeStrings,imgaeFileStrings;
+    String[] indexFileNameStrings, fileNameStrings, filePathStrings, loginStrings, imgPathStrings, imgFileNameSrings, imagePlacementStrings, arrivalTimeStrings, departTimeStrings, imgaeFileStrings;
     Bitmap imgPackage1Bitmap, imgPackage2Bitmap, imgDoc1Bitmap, imgDoc2Bitmap;
     Uri pack1Uri, pack2Uri, doc1Uri, doc2Uri;
     String name = "JobFragment ";
@@ -119,6 +121,7 @@ public class JobFragment extends Fragment {
     public JobFragment() {
         // Required empty public constructor
     }
+
     //Menu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -139,6 +142,7 @@ public class JobFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -168,7 +172,7 @@ public class JobFragment extends Fragment {
 
     }
 
-//set Filename and path
+    //set Filename and path
     private void setData() {
 
 
@@ -196,7 +200,7 @@ public class JobFragment extends Fragment {
         unbinder.unbind();
     }
 
-//Set hide icon take Photo
+    //Set hide icon take Photo
     private void setPic() {
         if (!storeTypeString.equals("Roadside")) {
             img4.setVisibility(View.INVISIBLE);
@@ -230,13 +234,10 @@ public class JobFragment extends Fragment {
                             imgPackage1Bitmap = rotateBitmap(imgPackage1Bitmap);
                         }
                         img4.setImageBitmap(imgPackage1Bitmap);
-                        if (!Objects.equals(pathPack1String, "")) {
+
                             SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[0], runningNoString, imgPackage1Bitmap);
                             syncUploadPicture.execute();
-                            Toast.makeText(getContext(), R.string.save_pic_success, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getContext(), R.string.save_pic_unsuccess, Toast.LENGTH_LONG).show();
-                        }
+//
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -251,14 +252,8 @@ public class JobFragment extends Fragment {
                             imgPackage2Bitmap = rotateBitmap(imgPackage2Bitmap);
                         }
                         img5.setImageBitmap(imgPackage2Bitmap);
-                        if (!Objects.equals(pathPack2String, "")) {
                             SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[1], runningNoString, imgPackage2Bitmap);
                             syncUploadPicture.execute();
-                            Toast.makeText(getContext(), R.string.save_pic_success, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getContext(), R.string.save_pic_unsuccess, Toast.LENGTH_LONG).show();
-                        }
-
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -276,9 +271,7 @@ public class JobFragment extends Fragment {
                         if (!Objects.equals(pathDoc1String, "")) {
                             SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[2], runningNoString, imgDoc1Bitmap);
                             syncUploadPicture.execute();
-                            Toast.makeText(getContext(), R.string.save_pic_success, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(getContext(), R.string.save_pic_unsuccess, Toast.LENGTH_LONG).show();
                         }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -294,13 +287,10 @@ public class JobFragment extends Fragment {
                             imgDoc2Bitmap = rotateBitmap(imgDoc2Bitmap);
                         }
                         img7.setImageBitmap(imgDoc2Bitmap);
-                        if (!Objects.equals(pathDoc2String, "")) {
+
                             SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[3], runningNoString, imgDoc2Bitmap);
                             syncUploadPicture.execute();
-                            Toast.makeText(getContext(), R.string.save_pic_success, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getContext(), R.string.save_pic_unsuccess, Toast.LENGTH_LONG).show();
-                        }
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -310,7 +300,7 @@ public class JobFragment extends Fragment {
     }
 // Pic
 
-    private void writeToSDFile(Bitmap bitmap){
+    private void writeToSDFile(Bitmap bitmap) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         if (bitmap.getWidth() > bitmap.getHeight()) {
@@ -325,29 +315,29 @@ public class JobFragment extends Fragment {
         data[13] = 00000001;
         data[14] = 00000001;
         data[15] = (byte) 244;
-        data[16] =  00000001;
+        data[16] = 00000001;
 
         File target = Environment.getExternalStorageDirectory();
-        File file = new File(Environment.getExternalStorageDirectory(),"/DCIMA/");
-        if(!file.exists()){
+        File file = new File(Environment.getExternalStorageDirectory(), "/DCIMA/");
+        if (!file.exists()) {
             file.mkdir();
         }
         Log.d("TAG:", "writeToSDFile: " + file.getAbsolutePath().toString());
 
-        try{
+        try {
             File gpxfile = new File(file, "myData.txt");
             FileWriter writer = new FileWriter(gpxfile);
             writer.append(Base64.encodeToString(data, Base64.DEFAULT));
             writer.flush();
             writer.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
     }
 
-//Send Photo
+    //Send Photo
     class SyncUploadPicture extends AsyncTask<Void, Void, String> {
         Context context;
         String mFileNameString, runningNoString;
@@ -379,30 +369,32 @@ public class JobFragment extends Fragment {
 
             writeToSDFile(bitmap);
             UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
-            String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlUploadImage, bitmap);
-
+            String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlUploadImage, bitmap, loginStrings[4]);
+            Log.d("TAG:", "Result1111 " + result);
 //            if (result.equals("NOK")) {
-//                return "NOK";
+//                return "NOK111111";
 //            } else {
             try {
 
-                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString +","+ result);
+                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString + "," + result);
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("pTruckId", loginStrings[4]);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pFileName", mFileNameString);
                     jsonObject.put("pDelType", "FT");
-                    jsonObject.put("pImgFile", result);
+//                    jsonObject.put("pImgFile", result);
 
                     if (mFileNameString.equals("PDT_1_Package1.jpg") || mFileNameString.equals("PDT_2_Package2.jpg")) {
                         jsonObject.put("pImgType", "PDT");
-                    } else if (mFileNameString.equals("DOC_1_Document1.jpg") || mFileNameString.equals("DOC_2_Document2.jpg")){
+                    } else if (mFileNameString.equals("DOC_1_Document1.jpg") || mFileNameString.equals("DOC_2_Document2.jpg")) {
                         jsonObject.put("pImgType", "DOC");
                     }
                     jsonObject.put("pUser", loginStrings[3]);
 
+
                     Log.d(name + "TAG:", "PIC Result: " + result);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -418,6 +410,7 @@ public class JobFragment extends Fragment {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.d("TAG:", "EXXXXXX" + e + "Line: " + e.getStackTrace()[0].getLineNumber());
                 return "NOK";
             }
 //            }
@@ -426,7 +419,7 @@ public class JobFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(reformat(s));
-            Log.d(name + "TAG:", "onPostExecute:::-----> " + reformat(s));
+            Log.d(name + "TAG:", "onPostExecute1:::-----> " + reformat(s));
             progressDialog.dismiss();
 //
         }
@@ -595,7 +588,7 @@ public class JobFragment extends Fragment {
 
                 // 2. assign get data
 
-                Request request = new Request.Builder().url(Constant.urlGetJobDetail + loginStrings[4]+"/" + runningNoString).build();
+                Request request = new Request.Builder().url(Constant.urlGetJobDetail + loginStrings[4] + "/" + runningNoString).build();
 //                Request request = new Request.Builder().url(Constant.urlGetJobList +truckIDString +"/"+deliveryDateString).build();
 
                 // 3. transport request to server
@@ -603,22 +596,22 @@ public class JobFragment extends Fragment {
 
                 String result = response.body().string();
                 String refomat1 = reformat(result);
-                Log.d("TAG:"+ name, "Request:" + request);
+                Log.d("TAG:" + name, "Request:" + request);
 
-                Log.d("TAG:"+ name, "GetJobDetail" + refomat1);
+                Log.d("TAG:" + name, "GetJobDetail" + refomat1);
 
                 // parse json string with gson
                 Gson gson = new Gson();
 
                 GetJobDetail getJobDetail = gson.fromJson(refomat1, GetJobDetail.class);
-                String getTotal =  getJobDetail.getData().get(0).getImgFileName();
-                Log.d("TAG:"+ name, "Getdata" + String.valueOf(getJobDetail.getData().size()));
-                Log.d("TAG:"+ name, "getImgFileName" + getJobDetail.getData().get(0).getImgFileName());
+                String getTotal = getJobDetail.getData().get(0).getImgFileName();
+                Log.d("TAG:" + name, "Getdata" + String.valueOf(getJobDetail.getData().size()));
+                Log.d("TAG:" + name, "getImgFileName" + getJobDetail.getData().get(0).getImgFileName());
 
                 return refomat1;
 
             } catch (Exception e) {
-                Log.d("TAG:"+ name, "Error1: " + e.getMessage().toString());
+                Log.d("TAG:" + name, "Error1: " + e.getMessage().toString());
 //                Log.d("TAG:","UNIQLO-Tag-Main", "e ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
                 return null;
             }
@@ -633,8 +626,8 @@ public class JobFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject(s);
 
                 JSONArray dataJsonArray = jsonObject.getJSONArray("data");
-                imgPathStrings = new String[dataJsonArray.length()];
-                imgFileNameSrings = new String[dataJsonArray.length()];
+                imgPathStrings = new String[4];
+                imgFileNameSrings = new String[4];
                 imagePlacementStrings = new String[dataJsonArray.length()];
                 arrivalTimeStrings = new String[dataJsonArray.length()];
                 departTimeStrings = new String[dataJsonArray.length()];
@@ -642,12 +635,12 @@ public class JobFragment extends Fragment {
 
                 for (int i = 0; i < dataJsonArray.length(); i++) {
                     JSONObject jsonObject1 = dataJsonArray.getJSONObject(i);
-                    imgPathStrings[i] = jsonObject1.getString("ImgPath");
+//                    imgPathStrings[i] = jsonObject1.getString("ImgPath");
                     imgFileNameSrings[i] = jsonObject1.getString("ImgFileName");
                     imagePlacementStrings[i] = jsonObject1.getString("ImagePlacement");
                     arrivalTimeStrings[i] = jsonObject1.getString("ArrivalDT");
                     departTimeStrings[i] = jsonObject1.getString("DepartureDT");
-                    if (! jsonObject1.getString("ArrivalDT").equals("")) {
+                    if (!jsonObject1.getString("ArrivalDT").equals("")) {
                         btnArrival.setEnabled(false);
                         btnConfirm.setEnabled(true);
                     } else {
@@ -655,10 +648,67 @@ public class JobFragment extends Fragment {
                         btnConfirm.setEnabled(false);
 
                     }
-
+                    if (imgFileNameSrings[i].equals("PDT_1_Package1.jpg")) {
+                        imgPathStrings[i] = jsonObject1.getString("ImgPath");
+                    } else if (imgFileNameSrings[i].equals("PDT_2_Package2.jpg")) {
+                        imgPathStrings[i] = jsonObject1.getString("ImgPath");
+                    } else if (imgFileNameSrings[i].equals("DOC_1_Document1.jpg")) {
+                        imgPathStrings[i] = jsonObject1.getString("ImgPath");
+                    } else if (imgFileNameSrings[i].equals("DOC_2_Document2.jpg")) {
+                        imgPathStrings[i] = jsonObject1.getString("ImgPath");
+                    }
+//                    if (imgFileNameSrings[0].equals("PDT_1_Package1.jpg")) {
+//                        imgPathStrings[0] = jsonObject1.getString("ImgPath");
+//                    } else if (imgFileNameSrings[1].equals("PDT_2_Package2.jpg")) {
+//                        imgPathStrings[1] = jsonObject1.getString("ImgPath");
+//                    } else if (imgFileNameSrings[2].equals("DOC_1_Document1.jpg")) {
+//                        imgPathStrings[2] = jsonObject1.getString("ImgPath");
+//                    } else if (imgFileNameSrings[3].equals("DOC_2_Document2.jpg")) {
+//                        imgPathStrings[3] = jsonObject1.getString("ImgPath");
+//                    }
 
                 }
                 Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[0] + "imgPathStrings: " + imgPathStrings[0]);
+
+//                if (!(imgFileNameSrings[0]== null) && (!(imgPathStrings[0] == null))) {
+//                    if (imgFileNameSrings[0].equals("PDT_1_Package1.jpg")) {
+//                        Glide.with(context).load(imgPathStrings[0] + imgFileNameSrings[0]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+//                    }
+//                }else if (!(imgFileNameSrings[1]== null) && (!(imgPathStrings[1] == null))) {
+//                    if (imgFileNameSrings[1].equals("PDT_2_Package2.jpg") && (imgPathStrings[1] == null)) {
+//                        Glide.with(context).load(imgPathStrings[1] + imgFileNameSrings[1]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
+//                    }
+//                }else if (!(imgFileNameSrings[2]== null) && (!(imgPathStrings[2] == null))) {
+//                    if (imgFileNameSrings[2].equals("DOC_1_Document1.jpg") && (imgPathStrings[2] == null)) {
+//                        Glide.with(context).load(imgPathStrings[2] + imgFileNameSrings[2]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
+//                    }
+//                }else if (!(imgFileNameSrings[3]== null) && (!(imgPathStrings[3] == null))) {
+//                    if (imgFileNameSrings[3].equals("DOC_2_Document2.jpg") && (imgPathStrings[3] == null)) {
+//                        Glide.with(context).load(imgPathStrings[3] + imgFileNameSrings[3]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
+//                    }
+//                }
+
+                for (int i = 0; i < imgPathStrings.length; i++) {
+                    if (!(imgPathStrings[i] == null)) {
+                        switch (i) {
+                            case 0:
+                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+                                break;
+                            case 1:
+                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
+                                break;
+                            case 2:
+                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
+                                break;
+                            case 3:
+                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
+                                break;
+
+                        }
+                    }
+                    Log.d("TAG:", "ImgpathandFilename: ==>   "+ imgPathStrings[i] + imgFileNameSrings[i]);
+                }
+
 
             } catch (JSONException e) {
                 Log.d(name + "TAG:", "JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
@@ -668,6 +718,7 @@ public class JobFragment extends Fragment {
 
         }
     }
+
     @OnClick({R.id.btn_savepic, R.id.btn_transfer, R.id.btn_arrival, R.id.btn_confirm, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -710,7 +761,12 @@ public class JobFragment extends Fragment {
                                 SynUpdateArrival syncUpdateArrival = new SynUpdateArrival(latitude, longitude, utilityClass.getTimeString(), getActivity());
                                 syncUpdateArrival.execute();
                                 Toast.makeText(getActivity(), getResources().getString(R.string.arrival), Toast.LENGTH_LONG).show();
-
+//                                Fragment frg =null;
+//                                frg = getFragmentManager().findFragmentByTag("Job");
+//                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                                ft.detach(frg);
+//                                ft.attach(frg);
+//                                ft.commit();
                             } else {
                                 Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
                             }
@@ -744,16 +800,14 @@ public class JobFragment extends Fragment {
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             if (!(longitude == null)) {
-//                                if (pathPack1String == null ) {
-//                                    Toast.makeText(getActivity(), getResources().getString(R.string.take_photo), Toast.LENGTH_LONG).show();
-                                    SynUpdateDeparture synUpdateDeparture = new SynUpdateDeparture(latitude, longitude, utilityClass1.getTimeString(), getActivity());
-                                    synUpdateDeparture.execute();
+
+                                SynUpdateDeparture synUpdateDeparture = new SynUpdateDeparture(latitude, longitude, utilityClass1.getTimeString(), getActivity());
+                                synUpdateDeparture.execute();
                                 Toast.makeText(getActivity(), getResources().getString(R.string.departure), Toast.LENGTH_LONG).show();
                                 getFragmentManager().popBackStack();
-
                             } else {
-                           Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
-                                    }
+                                Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
+                            }
 //                            }
 //                            }
 
