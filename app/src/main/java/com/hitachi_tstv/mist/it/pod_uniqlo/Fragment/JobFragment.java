@@ -777,7 +777,6 @@ public class JobFragment extends Fragment {
 
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-//                            FragmentTransaction ft = getFragmentManager().beginTransaction();
                             JobFragment jobFragment = new JobFragment();
                             if (!(latitude == null)) {
                                 SynUpdateArrival syncUpdateArrival = new SynUpdateArrival(latitude, longitude, utilityClass.getTimeString(), getActivity());
