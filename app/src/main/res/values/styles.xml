@@ -8,4 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    //Dialog
+    <!--Dialog Confirm-->
+    <style name="ConfirmAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <!--<item name="android:background">@color/BurlyWood</item>-->
+        <!--<item name="android:textSize">@dimen/txt_h3</item>-->
+    </style>
+
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@drawable/crimson_button</item>
+        <item name="android:textColor">@color/WhiteSmoke</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@drawable/forrestgreen_button</item>
+        <item name="android:textColor">@color/WhiteSmoke</item>
+
+    </style>
 </resources>

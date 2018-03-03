@@ -235,8 +235,8 @@ public class JobFragment extends Fragment {
                         }
                         img4.setImageBitmap(imgPackage1Bitmap);
 
-                            SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[0], runningNoString, imgPackage1Bitmap);
-                            syncUploadPicture.execute();
+                        SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[0], runningNoString, imgPackage1Bitmap);
+                        syncUploadPicture.execute();
 //
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -252,8 +252,8 @@ public class JobFragment extends Fragment {
                             imgPackage2Bitmap = rotateBitmap(imgPackage2Bitmap);
                         }
                         img5.setImageBitmap(imgPackage2Bitmap);
-                            SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[1], runningNoString, imgPackage2Bitmap);
-                            syncUploadPicture.execute();
+                        SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[1], runningNoString, imgPackage2Bitmap);
+                        syncUploadPicture.execute();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -288,8 +288,8 @@ public class JobFragment extends Fragment {
                         }
                         img7.setImageBitmap(imgDoc2Bitmap);
 
-                            SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[3], runningNoString, imgDoc2Bitmap);
-                            syncUploadPicture.execute();
+                        SyncUploadPicture syncUploadPicture = new SyncUploadPicture(getActivity(), indexFileNameStrings[3], runningNoString, imgDoc2Bitmap);
+                        syncUploadPicture.execute();
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -371,49 +371,46 @@ public class JobFragment extends Fragment {
             UploadImageUtils1 uploadImageUtils1 = new UploadImageUtils1();
             String result = uploadImageUtils1.uploadFile(mFileNameString, Constant.urlUploadImage, bitmap, loginStrings[4]);
             Log.d("TAG:", "Result1111 " + result);
-//            if (result.equals("NOK")) {
-//                return "NOK111111";
-//            } else {
-            try {
-
-                Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString + "," + result);
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("pTruckId", loginStrings[4]);
-                    jsonObject.put("pRunNo", runningNoString);
-                    jsonObject.put("pFileName", mFileNameString);
-                    jsonObject.put("pDelType", "FT");
-//                    jsonObject.put("pImgFile", result);
-
-                    if (mFileNameString.equals("PDT_1_Package1.jpg") || mFileNameString.equals("PDT_2_Package2.jpg")) {
-                        jsonObject.put("pImgType", "PDT");
-                    } else if (mFileNameString.equals("DOC_1_Document1.jpg") || mFileNameString.equals("DOC_2_Document2.jpg")) {
-                        jsonObject.put("pImgType", "DOC");
-                    }
-                    jsonObject.put("pUser", loginStrings[3]);
-
-
-                    Log.d(name + "TAG:", "PIC Result: " + result);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                OkHttpClient okHttpClient = new OkHttpClient();
-                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-                RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
-                Log.d(name + "TAG:", "Request Body PIC:" + jsonObject.toString());
-                Request.Builder builder = new Request.Builder();
-                Request request = builder.url(Constant.urlSaveImage).post(requestBody).build();
-                Response response = okHttpClient.newCall(request).execute();
-                return response.body().string();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("TAG:", "EXXXXXX" + e + "Line: " + e.getStackTrace()[0].getLineNumber());
+            if (result.equals("NOK")) {
                 return "NOK";
+            } else {
+                try {
+
+                    Log.d(name + "TAG:", "PIC: " + "Running_No ==> " + runningNoString + "," + loginStrings[4] + "," + loginStrings[3] + "," + mFileNameString + "," + result);
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("pTruckId", loginStrings[4]);
+                        jsonObject.put("pRunNo", runningNoString);
+                        jsonObject.put("pFileName", mFileNameString);
+                        jsonObject.put("pDelType", "FT");
+
+                        if (mFileNameString.equals("PDT_1_Package1.jpg") || mFileNameString.equals("PDT_2_Package2.jpg")) {
+                            jsonObject.put("pImgType", "PDT");
+                        } else if (mFileNameString.equals("DOC_1_Document1.jpg") || mFileNameString.equals("DOC_2_Document2.jpg")) {
+                            jsonObject.put("pImgType", "DOC");
+                        }
+                        jsonObject.put("pUser", loginStrings[3]);
+                        Log.d(name + "TAG:", "PIC Result: " + result);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    RequestBody requestBody = RequestBody.create(JSON, jsonObject.toString());
+                    Log.d(name + "TAG:", "Request Body PIC:" + jsonObject.toString());
+                    Request.Builder builder = new Request.Builder();
+                    Request request = builder.url(Constant.urlSaveImage).post(requestBody).build();
+                    Response response = okHttpClient.newCall(request).execute();
+                    return response.body().string();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.d("TAG:", "EXXXXXX" + e + "Line: " + e.getStackTrace()[0].getLineNumber());
+                    return "NOK";
+                }
             }
-//            }
         }
 
         @Override
@@ -421,6 +418,26 @@ public class JobFragment extends Fragment {
             super.onPostExecute(reformat(s));
             Log.d(name + "TAG:", "onPostExecute1:::-----> " + reformat(s));
             progressDialog.dismiss();
+
+            try {
+                JSONArray jsonArray = new JSONArray(reformat(s));
+
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                String confirm = jsonObject.getString("RESULT");
+                if (confirm.equals("OK")) {
+                    Toast.makeText(context, getResources().getText(R.string.save_pic_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, getResources().getText(R.string.save_pic_unsuccess), Toast.LENGTH_SHORT).show();
+                }
+
+
+                Log.d(name + "TAG:", "check" + confirm);
+            } catch (JSONException e) {
+                e.printStackTrace();
+
+                Log.d(name + "TAG:", "JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
+
+            }
 //
         }
     }
@@ -706,7 +723,7 @@ public class JobFragment extends Fragment {
 
                         }
                     }
-                    Log.d("TAG:", "ImgpathandFilename: ==>   "+ imgPathStrings[i] + imgFileNameSrings[i]);
+                    Log.d("TAG:", "ImgpathandFilename: ==>   " + imgPathStrings[i] + imgFileNameSrings[i]);
                 }
 
 
@@ -720,7 +737,7 @@ public class JobFragment extends Fragment {
     }
 
     @OnClick({R.id.btn_savepic, R.id.btn_transfer, R.id.btn_arrival, R.id.btn_confirm, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7})
-    public void onViewClicked(View view) {
+    public void onViewClicked(final View view) {
         switch (view.getId()) {
             case R.id.btn_transfer:
                 FragmentManager fragmentManager = getFragmentManager();
@@ -745,33 +762,43 @@ public class JobFragment extends Fragment {
             //arrival
             case R.id.btn_arrival:
                 final UtilityClass utilityClass = new UtilityClass(getActivity());
+
+
                 if (utilityClass.setLatLong(0)) {
                     final String latitude = utilityClass.getLatString();
                     final String longitude = utilityClass.getLongString();
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext(),R.style.ConfirmAlertDialogTheme);
                     dialog.setTitle(R.string.alert);
                     dialog.setIcon(R.drawable.warning);
                     dialog.setCancelable(true);
                     dialog.setMessage(R.string.arrivalDialog);
 
+
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+//                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            JobFragment jobFragment = new JobFragment();
                             if (!(latitude == null)) {
                                 SynUpdateArrival syncUpdateArrival = new SynUpdateArrival(latitude, longitude, utilityClass.getTimeString(), getActivity());
                                 syncUpdateArrival.execute();
+
                                 Toast.makeText(getActivity(), getResources().getString(R.string.arrival), Toast.LENGTH_LONG).show();
-//                                Fragment frg =null;
-//                                frg = getFragmentManager().findFragmentByTag("Job");
-//                                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                                ft.detach(frg);
-//                                ft.attach(frg);
-//                                ft.commit();
+                            //reload
+                                Fragment frg = null;
+                                frg = getFragmentManager().findFragmentByTag("Job");
+                                final android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.detach(frg);
+                                ft.attach(frg);
+                                ft.commit();
+
+
                             } else {
                                 Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
                             }
 
                         }
+
                     });
 
                     dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -780,6 +807,7 @@ public class JobFragment extends Fragment {
                         }
                     });
                     dialog.show();
+
                 }
 
                 break;

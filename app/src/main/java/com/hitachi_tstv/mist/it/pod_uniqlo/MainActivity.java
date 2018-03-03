@@ -67,40 +67,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//    private void createToolbar() {
-//        Toolbar toolbar = findViewById(R.id.mainToolbar);
-//        setActionBar(toolbar);
-//
-//        toolbar.setNavigationIcon(R.drawable.ic_settings_power_white);
-//        toolbar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AlertDialog.Builder dialog = new AlertDialog.Builder(getApplicationContext());
-//                dialog.setTitle(R.string.alert);
-//                dialog.setCancelable(true);
-//                dialog.setIcon(R.drawable.warning);
-//                dialog.setMessage(R.string.alert_logout);
-//
-//                dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                        ComponentName componentName = intent.getComponent();
-//                        Intent backToMainIntent = IntentCompat.makeRestartActivityTask(componentName);
-//                        startActivity(backToMainIntent);
-//                    }
-//                });
-//
-//                dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//                dialog.show();
-//            }
-//        });
-//
-//    }
 
 }

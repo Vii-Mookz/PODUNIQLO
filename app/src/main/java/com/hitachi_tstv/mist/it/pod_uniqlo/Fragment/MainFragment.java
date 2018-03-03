@@ -175,34 +175,6 @@ public class MainFragment extends Fragment {
                 return null;
             }
 
-//
-//                OkHttpClient okHttpClient = new OkHttpClient();
-//
-//                Request.Builder builder = new Request.Builder();
-//            Request request = builder.url(Constant.urlGetUser +usernameString +"/"+passwordString).build();
-////                Request request = builder.url(Constant.urlGetUser).build();
-//
-//
-//                try {
-//                    Response response = okHttpClient.newCall(request).execute();
-//                    String result = response.body().string();
-//
-//                    result = result.substring(1, result.length()-1);
-//                    Log.d("TAG:", "Result"+ result);
-//                    if (response.isSuccessful()) {
-//
-//                        Log.d("TAG:","Success");
-//                        return result;
-//                    } else {
-//                        return "Not Success - code : " + response.code();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Log.d("TAG:","Error:"+ e.getMessage().toString());
-//                    return "Error - " + e.getMessage();
-//
-//                }
-//
         }
 
         @Override
