@@ -1,7 +1,6 @@
 package com.hitachi_tstv.mist.it.pod_uniqlo.Fragment;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -82,12 +81,12 @@ public class ListJobFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(getActivity(),R.style.ConfirmAlertDialogTheme);
                 dialog.setTitle(R.string.alert);
-                dialog.setCancelable(true);
                 dialog.setIcon(R.drawable.warning);
+                dialog.setCancelable(true);
                 dialog.setMessage(R.string.alert_logout);
+
 
                 dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -98,6 +97,7 @@ public class ListJobFragment extends Fragment {
                         fragmentTransaction.replace(R.id.contentFragment, mainFragment, "main").addToBackStack(null);
                         fragmentTransaction.commit();
                     }
+
                 });
 
                 dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -105,9 +105,36 @@ public class ListJobFragment extends Fragment {
                         dialog.cancel();
                     }
                 });
-
                 dialog.show();
+
                 break;
+
+
+//                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity(),R.style.ConfirmAlertDialogTheme);
+//                dialog.setTitle(R.string.alert);
+//                dialog.setCancelable(true);
+//                dialog.setIcon(R.drawable.warning);
+//                dialog.setMessage(R.string.alert_logout);
+//
+//                dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        FragmentManager fragmentManager = getFragmentManager();
+//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                        MainFragment mainFragment = new MainFragment();
+//                        fragmentTransaction.replace(R.id.contentFragment, mainFragment, "main").addToBackStack(null);
+//                        fragmentTransaction.commit();
+//                    }
+//                });
+//
+//                dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//                dialog.show();
+
 
             case R.id.refresh:
                 FragmentTransaction ft = getFragmentManager().beginTransaction();

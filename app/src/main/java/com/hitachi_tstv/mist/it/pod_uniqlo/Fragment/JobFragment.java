@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -473,6 +474,7 @@ public class JobFragment extends Fragment {
                 try {
                     jsonObject.put("pCheckType", arrival);
                     jsonObject.put("pLatitude", latString);
+                    jsonObject.put("pLongitude", longString);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pTruckId", loginStrings[4]);
                     jsonObject.put("pUser", loginStrings[3]);
@@ -530,6 +532,7 @@ public class JobFragment extends Fragment {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("pCheckType", departure);
+                    jsonObject.put("pLatitude", latString);
                     jsonObject.put("pLongitude", longString);
                     jsonObject.put("pRunNo", runningNoString);
                     jsonObject.put("pTruckId", loginStrings[4]);
@@ -683,57 +686,80 @@ public class JobFragment extends Fragment {
 //                    } else if (imgFileNameSrings[3].equals("DOC_2_Document2.jpg")) {
 //                        imgPathStrings[3] = jsonObject1.getString("ImgPath");
 //                    }
+//
+
 
                 }
-                Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[0] + "imgPathStrings: " + imgPathStrings[0]);
 
-//                if (!(imgFileNameSrings[0]== null) && (!(imgPathStrings[0] == null))) {
-//                    if (imgFileNameSrings[0].equals("PDT_1_Package1.jpg")) {
-//                        Glide.with(context).load(imgPathStrings[0] + imgFileNameSrings[0]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+
+//                for (int i = 0; i < imgPathStrings.length; i++) {
+//                    if (!(imgPathStrings[i] == null)) {
+//                        switch (i) {
+//                            case 0:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+//                                break;
+//                            case 1:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
+//                                break;
+//                            case 2:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
+//                                break;
+//                            case 3:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
+//                                break;
+//
+//                        }
 //                    }
-//                }else if (!(imgFileNameSrings[1]== null) && (!(imgPathStrings[1] == null))) {
-//                    if (imgFileNameSrings[1].equals("PDT_2_Package2.jpg") && (imgPathStrings[1] == null)) {
-//                        Glide.with(context).load(imgPathStrings[1] + imgFileNameSrings[1]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
-//                    }
-//                }else if (!(imgFileNameSrings[2]== null) && (!(imgPathStrings[2] == null))) {
-//                    if (imgFileNameSrings[2].equals("DOC_1_Document1.jpg") && (imgPathStrings[2] == null)) {
-//                        Glide.with(context).load(imgPathStrings[2] + imgFileNameSrings[2]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
-//                    }
-//                }else if (!(imgFileNameSrings[3]== null) && (!(imgPathStrings[3] == null))) {
-//                    if (imgFileNameSrings[3].equals("DOC_2_Document2.jpg") && (imgPathStrings[3] == null)) {
-//                        Glide.with(context).load(imgPathStrings[3] + imgFileNameSrings[3]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
-//                    }
+//                    Log.d("TAG:", "ImgpathandFilename: ==>   " + imgPathStrings[i] + imgFileNameSrings[i]);
 //                }
-
-                for (int i = 0; i < imgPathStrings.length; i++) {
-                    if (!(imgPathStrings[i] == null)) {
-                        switch (i) {
-                            case 0:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
-                                break;
-                            case 1:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
-                                break;
-                            case 2:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
-                                break;
-                            case 3:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
-                                break;
-
-                        }
-                    }
-                    Log.d("TAG:", "ImgpathandFilename: ==>   " + imgPathStrings[i] + imgFileNameSrings[i]);
-                }
-
-
             } catch (JSONException e) {
                 Log.d(name + "TAG:", "JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
 
             }
 
+            if (imgFileNameSrings != null) {
+                Log.d("TAG:" + name, "imgFileNameSrings: " + Arrays.toString(imgFileNameSrings));
+            }
+            if (!(imgFileNameSrings[0] == null) && (!(imgPathStrings[0] == null))) {
+                //check image
+                checkImage(0);
+            } else if (!(imgFileNameSrings[1] == null) && (!(imgPathStrings[1] == null))) {
 
+                checkImage(1);
+            } else if (!(imgFileNameSrings[2] == null) && (!(imgPathStrings[2] == null))) {
+
+                checkImage(2);
+            } else if (!(imgFileNameSrings[3] == null) && (!(imgPathStrings[3] == null))) {
+
+                checkImage(3);
+            }
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "0" + imgPathStrings[0] + imgFileNameSrings[0]);
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "1" + imgPathStrings[1] + imgFileNameSrings[1]);
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "2" + imgPathStrings[2] + imgFileNameSrings[2]);
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "3" + imgPathStrings[3] + imgFileNameSrings[3]);
         }
+
+        private void checkImage(int i) {
+            for (i = 0; i < imgFileNameSrings.length; i++) {
+                if (!(imgFileNameSrings[i] == null)) {
+                    if (imgFileNameSrings[i].equals("PDT_1_Package1.jpg")) {
+                        Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+                    } else if (imgFileNameSrings[i].equals("PDT_2_Package2.jpg") && (!(imgPathStrings[i] == null))) {
+                        Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
+                    } else if (imgFileNameSrings[i].equals("DOC_1_Document1.jpg") && (!(imgPathStrings[i] == null))) {
+                        Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
+                    } else if (imgFileNameSrings[i].equals("DOC_2_Document2.jpg") && (!(imgPathStrings[i] == null))) {
+                        Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameSrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
+                    }
+                    Log.d(name + "TAG:", "checkImage: " + imgPathStrings[i] + imgFileNameSrings[i]);
+                }
+            }
+        }
+
     }
 
     @OnClick({R.id.btn_savepic, R.id.btn_transfer, R.id.btn_arrival, R.id.btn_confirm, R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7})
@@ -768,7 +794,7 @@ public class JobFragment extends Fragment {
                     final String latitude = utilityClass.getLatString();
                     final String longitude = utilityClass.getLongString();
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext(),R.style.ConfirmAlertDialogTheme);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext(), R.style.ConfirmAlertDialogTheme);
                     dialog.setTitle(R.string.alert);
                     dialog.setIcon(R.drawable.warning);
                     dialog.setCancelable(true);
@@ -783,7 +809,7 @@ public class JobFragment extends Fragment {
                                 syncUpdateArrival.execute();
 
                                 Toast.makeText(getActivity(), getResources().getString(R.string.arrival), Toast.LENGTH_LONG).show();
-                            //reload
+                                //reload
                                 Fragment frg = null;
                                 frg = getFragmentManager().findFragmentByTag("Job");
                                 final android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -818,9 +844,9 @@ public class JobFragment extends Fragment {
                     final String latitude = utilityClass1.getLatString();
                     final String longitude = utilityClass1.getLongString();
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext(), R.style.ConfirmAlertDialogTheme);
                     dialog.setTitle(R.string.alert);
-//                    dialog.setIcon(R.drawable.warning);
+                    dialog.setIcon(R.drawable.warning);
                     dialog.setCancelable(true);
                     dialog.setMessage(R.string.departureDialog);
 
