@@ -37,4 +37,5 @@
     <string name="cartons">Carton</string>
     <string name="login">Login</string>
     <string name="plase_date">Please Select Date</string>
+    <string name="save_total">Save Total Success</string>
 </resources>

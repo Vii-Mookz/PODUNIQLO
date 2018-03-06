@@ -677,16 +677,7 @@ public class JobFragment extends Fragment {
                     } else if (imgFileNameSrings[i].equals("DOC_2_Document2.jpg")) {
                         imgPathStrings[i] = jsonObject1.getString("ImgPath");
                     }
-//                    if (imgFileNameSrings[0].equals("PDT_1_Package1.jpg")) {
-//                        imgPathStrings[0] = jsonObject1.getString("ImgPath");
-//                    } else if (imgFileNameSrings[1].equals("PDT_2_Package2.jpg")) {
-//                        imgPathStrings[1] = jsonObject1.getString("ImgPath");
-//                    } else if (imgFileNameSrings[2].equals("DOC_1_Document1.jpg")) {
-//                        imgPathStrings[2] = jsonObject1.getString("ImgPath");
-//                    } else if (imgFileNameSrings[3].equals("DOC_2_Document2.jpg")) {
-//                        imgPathStrings[3] = jsonObject1.getString("ImgPath");
-//                    }
-//
+
 
 
                 }
@@ -723,13 +714,16 @@ public class JobFragment extends Fragment {
             if (!(imgFileNameSrings[0] == null) && (!(imgPathStrings[0] == null))) {
                 //check image
                 checkImage(0);
-            } else if (!(imgFileNameSrings[1] == null) && (!(imgPathStrings[1] == null))) {
+            }
+            if (!(imgFileNameSrings[1] == null) && (!(imgPathStrings[1] == null))) {
 
                 checkImage(1);
-            } else if (!(imgFileNameSrings[2] == null) && (!(imgPathStrings[2] == null))) {
+            }
+            if (!(imgFileNameSrings[2] == null) && (!(imgPathStrings[2] == null))) {
 
                 checkImage(2);
-            } else if (!(imgFileNameSrings[3] == null) && (!(imgPathStrings[3] == null))) {
+            }
+            if (!(imgFileNameSrings[3] == null) && (!(imgPathStrings[3] == null))) {
 
                 checkImage(3);
             }
@@ -740,7 +734,7 @@ public class JobFragment extends Fragment {
         }
 
         private void checkImage(int i) {
-            for (i = 0; i < imgFileNameSrings.length; i++) {
+//            for (i = 0; i < imgFileNameSrings.length; i++) {
                 if (!(imgFileNameSrings[i] == null)) {
                     if (imgFileNameSrings[i].equals("PDT_1_Package1.jpg")) {
                         Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameSrings[i] + "imgPathStrings: " + imgPathStrings[i]);
@@ -757,7 +751,7 @@ public class JobFragment extends Fragment {
                     }
                     Log.d(name + "TAG:", "checkImage: " + imgPathStrings[i] + imgFileNameSrings[i]);
                 }
-            }
+//            }
         }
 
     }
@@ -843,37 +837,60 @@ public class JobFragment extends Fragment {
                 if (utilityClass1.setLatLong(0)) {
                     final String latitude = utilityClass1.getLatString();
                     final String longitude = utilityClass1.getLongString();
+//                    if (imgPathStrings[0] == null && imgPathStrings[1] == null && imgPathStrings[2] == null && imgPathStrings[3] == null && storeTypeString.equals("Roadside")) {
+//
+//                        Log.d(name + "TAG:", "onViewClicked: Return " + Arrays.toString(imgFileNameSrings));
+//                        final AlertDialog.Builder popDialog = new AlertDialog.Builder(getActivity());
+//                        popDialog.setIcon(R.drawable.icon_camera);
+//                        popDialog.setTitle(R.string.take_photo);
+//
+//
+//                        // Button OK
+//                        popDialog.setPositiveButton(R.string.yes,
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                });
+//
+//
+//                        popDialog.create();
+//                        popDialog.show();
+//
+//
+//                    } else {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext(), R.style.ConfirmAlertDialogTheme);
+                        dialog.setTitle(R.string.alert);
+                        dialog.setIcon(R.drawable.warning);
+                        dialog.setCancelable(true);
+                        dialog.setMessage(R.string.departureDialog);
 
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext(), R.style.ConfirmAlertDialogTheme);
-                    dialog.setTitle(R.string.alert);
-                    dialog.setIcon(R.drawable.warning);
-                    dialog.setCancelable(true);
-                    dialog.setMessage(R.string.departureDialog);
+                        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (!(longitude == null)) {
 
-                    dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!(longitude == null)) {
+                                    SynUpdateDeparture synUpdateDeparture = new SynUpdateDeparture(latitude, longitude, utilityClass1.getTimeString(), getActivity());
+                                    synUpdateDeparture.execute();
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.departure), Toast.LENGTH_LONG).show();
+                                    getFragmentManager().popBackStack();
+                                } else {
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
+                                }
+//                            }
+//                            }
 
-                                SynUpdateDeparture synUpdateDeparture = new SynUpdateDeparture(latitude, longitude, utilityClass1.getTimeString(), getActivity());
-                                synUpdateDeparture.execute();
-                                Toast.makeText(getActivity(), getResources().getString(R.string.departure), Toast.LENGTH_LONG).show();
-                                getFragmentManager().popBackStack();
-                            } else {
-                                Toast.makeText(getActivity(), getResources().getString(R.string.err_gps1), Toast.LENGTH_LONG).show();
                             }
-//                            }
-//                            }
+                        });
 
-                        }
-                    });
-
-                    dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    dialog.show();
-                }
+                        dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        dialog.show();
+                    }
+//                }
                 break;
 
             case R.id.img_4:

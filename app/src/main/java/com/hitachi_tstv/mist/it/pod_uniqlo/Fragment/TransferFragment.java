@@ -519,42 +519,82 @@ public class TransferFragment extends Fragment {
                     }
                 }
 
-                for (int i = 0; i < imgPathStrings.length; i++) {
-                    if (!(imgPathStrings[i] == null)) {
-                        switch (i) {
-                            case 0:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
-                                break;
-                            case 1:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
-                                break;
-                            case 2:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
-                                break;
-                            case 3:
-                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
-                                break;
-
-                        }
-                    }
-                    Log.d("TAG:", "ImgpathandFilename: ==>   " + imgPathStrings[i] + imgFileNameStrings[i]);
-                }
+//                for (int i = 0; i < imgPathStrings.length; i++) {
+//                    if (!(imgPathStrings[i] == null)) {
+//                        switch (i) {
+//                            case 0:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+//                                break;
+//                            case 1:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
+//                                break;
+//                            case 2:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
+//                                break;
+//                            case 3:
+//                                Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
+//                                break;
+//
+//                        }
+//                    }
+//                    Log.d("TAG:", "ImgpathandFilename: ==>   " + imgPathStrings[i] + imgFileNameStrings[i]);
+//                }
 
             } catch (JSONException e) {
                 Log.d(name + "TAG:", "JSONArray ==> " + e + " Line " + e.getStackTrace()[0].getLineNumber());
 
             }
             TotalEditText.setText(totalStrings[0]);
-        }
-    }
 
-    public void checkPhoto() {
-        String filename = Arrays.toString(imgFileNameStrings);
-        Log.d(name + "TAG:", "onViewClicked: " + filename);
-        if (filename.equals("") || filename == null) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.take_photo), Toast.LENGTH_LONG).show();
+            if (imgFileNameStrings != null) {
+                Log.d("TAG:" + name, "imgFileNameSrings: " + Arrays.toString(imgFileNameStrings));
+            }
+            if (!(imgFileNameStrings[0] == null) && (!(imgPathStrings[0] == null))) {
+                //check image
+                checkImage(0);
+            }
+            if (!(imgFileNameStrings[1] == null) && (!(imgPathStrings[1] == null))) {
+
+                checkImage(1);
+            }
+            if (!(imgFileNameStrings[2] == null) && (!(imgPathStrings[2] == null))) {
+
+                checkImage(2);
+            }
+            if (!(imgFileNameStrings[3] == null) && (!(imgPathStrings[3] == null))) {
+
+                checkImage(3);
+            }
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "0" + imgPathStrings[0] + imgFileNameStrings[0]);
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "1" + imgPathStrings[1] + imgFileNameStrings[1]);
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "2" + imgPathStrings[2] + imgFileNameStrings[2]);
+            Log.d("TAG:" + name, "imgFileNameSrings11: " + "3" + imgPathStrings[3] + imgFileNameStrings[3]);
         }
+
+        private void checkImage(int i) {
+//            for (i = 0; i < imgFileNameStrings.length; i++) {
+                if (!(imgFileNameStrings[i] == null)) {
+                    if (imgFileNameStrings[i].equals("PDT_1_PackageReturn1.jpg")) {
+                        Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameStrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img4);
+                    } else if (imgFileNameStrings[i].equals("PDT_2_PackageReturn2.jpg") && (!(imgPathStrings[i] == null))) {
+                        Log.d("TAG:" + name, "imgFileNameSrings: " + imgFileNameStrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img5);
+                    } else if (imgFileNameStrings[i].equals("DOC_1_DocumentReturn1.jpg") && (!(imgPathStrings[i] == null))) {
+                        Log.d("TAG:" + name, "imgFileNameStrings: " + imgFileNameStrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img6);
+                    } else if (imgFileNameStrings[i].equals("DOC_2_DocumentReturn2.jpg") && (!(imgPathStrings[i] == null))) {
+                        Log.d("TAG:" + name, "imgFileNameStrings: " + imgFileNameStrings[i] + "imgPathStrings: " + imgPathStrings[i]);
+                        Glide.with(context).load(imgPathStrings[i] + imgFileNameStrings[i]).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(img7);
+                    }
+                    Log.d(name + "TAG:", "checkImage: " + imgPathStrings[i] + imgFileNameStrings[i]);
+                }
+//            }
+        }
+
     }
+//}
+
 
     //OnClick
     @OnClick({R.id.img_4, R.id.img_5, R.id.img_6, R.id.img_7, R.id.btn_save})
@@ -597,15 +637,30 @@ public class TransferFragment extends Fragment {
                 }
                 break;
             case R.id.btn_save:
-                Boolean flag;
-                String[] Filename = new String[]{imgPathStrings[0], imgPathStrings[1],imgPathStrings[2], imgPathStrings[3]};
+//                if (imgPathStrings[0] == null && imgPathStrings[1] == null&& imgPathStrings[2] == null && imgPathStrings[3] == null) {
+//
+//                    Log.d(name + "TAG:", "onViewClicked: Return " + Arrays.toString(imgFileNameStrings));
+//                    final AlertDialog.Builder popDialog = new AlertDialog.Builder(getActivity());
+//                    popDialog.setIcon(R.drawable.icon_camera);
+//                    popDialog.setTitle(R.string.take_photo);
+//
+//
+//                    // Button OK
+//                    popDialog.setPositiveButton(R.string.yes,
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//
+//                            });
+//
+//
+//                    popDialog.create();
+//                    popDialog.show();
+//
+//
+//                } else {
 
-                String FilenamesArrays = Arrays.toString(Filename);
-                Log.d(name + "TAG:", "onViewClicked: " + FilenamesArrays );
-//                if (FilenamesArrays == null || FilenamesArrays.equals("")){
-////                if (!imgPack1RBoolean && !imgPack2RBoolean && !imgDoc1RBoolean && !imgDoc2RBoolean) {
-//                    Toast.makeText(getActivity(), getResources().getString(R.string.take_photo), Toast.LENGTH_LONG).show();
-//                } else if (!(FilenamesArrays == null || !(FilenamesArrays.equals("")))){
                     AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
 
                     dialog.setTitle(R.string.alert);
@@ -618,7 +673,7 @@ public class TransferFragment extends Fragment {
                         public void onClick(DialogInterface dialogInterface, int i) {
                             SyncUpdateTotalTransfer syncUpdateTotalTransfer = new SyncUpdateTotalTransfer(getActivity(), TotalEditText.getText().toString());
                             syncUpdateTotalTransfer.execute();
-                            Toast.makeText(getActivity(), getResources().getString(R.string.save), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.save_total), Toast.LENGTH_LONG).show();
                             getFragmentManager().popBackStack();
 
                         }
@@ -631,12 +686,13 @@ public class TransferFragment extends Fragment {
                     });
                     dialog.show();
 
+//                }
+
                     break;
 
-                }
 
 
-//        }
+        }
 
 
     }
